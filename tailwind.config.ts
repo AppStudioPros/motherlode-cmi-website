@@ -9,10 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#0a0a0f",
-        surface: "#111118",
-        muted: "#9ca3af",
-        light: "#d1d5db",
+        ink: "#15131a",
+        surface: "#1c1925",
+        surface2: "#252132",
+        muted: "#a8a3b5",
+        light: "#d8d3e5",
         text: "#f5f5f5",
         gold: "#F8AB20",
         amber: "#d97706",

@@ -1,8 +1,8 @@
 export default function Home() {
   return (
-    <main className="min-h-screen bg-ink text-text">
+    <main className="relative min-h-screen text-text">
       {/* Top Bar */}
-      <header className="sticky top-0 z-50 backdrop-blur bg-ink/80 border-b border-white/5">
+      <header className="sticky top-0 z-50 backdrop-blur bg-ink/70 border-b border-white/5">
         <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3 group">
             <div className="w-8 h-8 rounded bg-gradient-to-br from-gold to-copper flex items-center justify-center">
@@ -20,8 +20,8 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden blueprint-bg">
-        <div className="absolute inset-0 bg-gradient-to-b from-ink via-surface to-ink opacity-95"></div>
+      <section className="relative overflow-hidden blueprint-bg particles">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent"></div>
         <div className="relative max-w-5xl mx-auto px-6 pt-24 pb-20 md:pt-32 md:pb-28 text-center">
           <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-8">
             MotherLode CMI
@@ -36,7 +36,7 @@ export default function Home() {
       </section>
 
       {/* Quantified Savings strip */}
-      <section className="border-y border-gold/20 bg-gradient-to-r from-ink via-surface to-ink">
+      <section className="border-y border-gold/20 bg-gradient-to-r from-surface/40 via-surface2/40 to-surface/40 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-6 py-10 md:py-12">
           <div className="grid md:grid-cols-3 gap-8 md:gap-12 text-center">
             <div>
@@ -71,7 +71,7 @@ export default function Home() {
       </section>
 
       {/* Five Layers */}
-      <section id="platform" className="py-20 md:py-28 bg-surface/40 border-y border-white/5">
+      <section id="platform" className="py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12 text-center">
             Five integrated layers that turn historical mining data into actionable intelligence.
@@ -126,7 +126,7 @@ export default function Home() {
             />
             <SmallCard
               title="Patent Protected"
-              body="Multiple novel mechanisms patent pending, including AI-scored mineral reactivation potential, cross-era price arbitrage, integrated remediation-pathway generation, and cross-cluster discovery."
+              body="U.S. Provisional Patent Application Filed. Multiple novel mechanisms protected, including AI-scored mineral reactivation potential, cross-era price arbitrage, integrated remediation-pathway generation, and cross-cluster discovery."
             />
             <SmallCard
               title="Compounds With Use"
@@ -137,7 +137,7 @@ export default function Home() {
       </section>
 
       {/* The Data Flywheel */}
-      <section id="flywheel" className="py-20 md:py-28 bg-surface/40 border-y border-white/5">
+      <section id="flywheel" className="py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
         <div className="max-w-5xl mx-auto px-6">
           <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6">
             The Data Flywheel
@@ -193,24 +193,47 @@ export default function Home() {
       </section>
 
       {/* Team & Advisors */}
-      <section id="team" className="py-20 md:py-28 bg-surface/40 border-y border-white/5">
+      <section id="team" className="py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12 text-center">
             Domain credibility paired with engineering execution.
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {/* Corey */}
-            <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 hover:bg-white/[0.05] transition-colors">
+            <article className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 hover:bg-white/[0.06] transition-colors">
               <h3 className="text-2xl font-bold mb-1">Larry Corey Strange</h3>
-              <div className="text-gold font-semibold text-sm mb-3">Founder, MotherLode CMI</div>
-              <p className="text-light text-base leading-relaxed mb-4">
-                Twenty-plus year technology operator and inventor. Founder of Lucid Tech LLC and the Adaptive Compound Intelligence (ACI) framework, with multiple U.S. utility patents filed across a twenty-year career.
+              <div className="text-gold font-semibold text-sm mb-1">Founder and Chief Technology Officer</div>
+              <div className="text-muted text-xs uppercase tracking-wider mb-4">Lucid Tech LLC</div>
+              <p className="text-light text-base leading-relaxed mb-5">
+                Twenty-plus year technology operator and inventor. Founder of Lucid Tech LLC and the Adaptive Compound Intelligence (ACI) framework. Lead architect of the MotherLode CMI platform.
               </p>
-              <ul className="space-y-2 text-sm text-light">
-                <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Lead architect of the MotherLode CMI platform</li>
-                <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Multiple patents pending in AI-driven industrial decision support</li>
-                <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Founder, Lucid Tech LLC</li>
-              </ul>
+
+              <div className="mb-4">
+                <h4 className="text-gold text-xs font-bold uppercase tracking-[0.18em] mb-2">Patents and Intellectual Property</h4>
+                <ul className="space-y-1.5 text-sm text-light">
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Fourteen-plus U.S. utility patents filed across a twenty-year career</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>MotherLode CMI, U.S. Provisional Patent Application Filed</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>ACI Non-Provisional U.S. Utility Patent #19/680,696, filed 2026-05-18</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>ACI Provisional Filing #63/987,765, filed 2026-02-21</li>
+                </ul>
+              </div>
+
+              <div className="mb-4">
+                <h4 className="text-gold text-xs font-bold uppercase tracking-[0.18em] mb-2">Operating Companies</h4>
+                <ul className="space-y-1.5 text-sm text-light">
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Founder, AppStudioPro (twenty-person full-stack engineering organization)</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Founder, Web Design Pros 365 (BBB Accredited, A rating)</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Founder, Mobile Computer Specialists (Google 4.8 rating, BBB A+, Three Best Rated 2026 Top Three)</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-gold text-xs font-bold uppercase tracking-[0.18em] mb-2">Education and Recognition</h4>
+                <ul className="space-y-1.5 text-sm text-light">
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Oxford University AI Program, Top 1% of cohort, completed 2026</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Seventeen years of continuous operating record across three companies</li>
+                </ul>
+              </div>
             </article>
 
             {/* Douglas */}
@@ -253,7 +276,7 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-20 md:py-28 bg-surface/40 border-t border-white/5">
+      <section id="contact" className="py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-t border-white/5">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
             If your work touches the per-site critical-minerals gap, we welcome a discussion.
@@ -277,7 +300,7 @@ export default function Home() {
             MotherLode CMI is a product of <a href="https://lucidtechlabsllc.com" className="text-gold hover:underline">Lucid Tech LLC</a>.
           </div>
           <div className="text-xs text-muted">
-            © {new Date().getFullYear()} Lucid Tech LLC. All rights reserved. Multiple novel mechanisms patent pending.
+            © {new Date().getFullYear()} Lucid Tech LLC. All rights reserved. U.S. Provisional Patent Application Filed.
           </div>
         </div>
       </footer>
