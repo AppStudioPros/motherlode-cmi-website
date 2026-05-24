@@ -213,8 +213,6 @@ export default function Home() {
                 <ul className="space-y-1.5 text-sm text-light">
                   <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Fourteen-plus U.S. utility patents filed across a twenty-year career</li>
                   <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>MotherLode CMI, U.S. Provisional Patent Application Filed</li>
-                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>ACI Non-Provisional U.S. Utility Patent #19/680,696, filed 2026-05-18</li>
-                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>ACI Provisional Filing #63/987,765, filed 2026-02-21</li>
                 </ul>
               </div>
 

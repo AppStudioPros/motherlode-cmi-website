@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #15131a;
-  --background-soft: #1c1925;
+  --background: #1f1c2a;
+  --background-soft: #2a2638;
   --foreground: #f5f5f5;
 }
 
@@ -21,30 +21,34 @@ body {
   overflow-x: hidden;
 }
 
-/* Animated ambient background */
+/* Animated ambient background — visible, slow, on brand */
 .ambient-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 20% 30%, rgba(248, 171, 32, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 80% 70%, rgba(180, 83, 9, 0.06) 0%, transparent 50%),
-    radial-gradient(circle at 50% 100%, rgba(217, 119, 6, 0.05) 0%, transparent 55%),
-    linear-gradient(180deg, #15131a 0%, #1c1925 50%, #15131a 100%);
-  background-size: 200% 200%, 200% 200%, 200% 200%, 100% 100%;
-  animation: ambientDrift 32s ease-in-out infinite;
+    radial-gradient(circle at 20% 30%, rgba(248, 171, 32, 0.22) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(217, 119, 6, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(180, 83, 9, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 90% 20%, rgba(248, 171, 32, 0.12) 0%, transparent 35%),
+    linear-gradient(180deg, #1f1c2a 0%, #2a2638 50%, #1f1c2a 100%);
+  background-size: 180% 180%, 180% 180%, 180% 180%, 180% 180%, 100% 100%;
+  animation: ambientDrift 24s ease-in-out infinite;
 }
 
 @keyframes ambientDrift {
   0%, 100% {
-    background-position: 0% 0%, 100% 100%, 50% 100%, 0 0;
+    background-position: 0% 0%, 100% 100%, 50% 100%, 100% 0%, 0 0;
   }
-  33% {
-    background-position: 30% 20%, 70% 80%, 60% 90%, 0 0;
+  25% {
+    background-position: 40% 20%, 60% 80%, 30% 90%, 70% 20%, 0 0;
   }
-  66% {
-    background-position: 60% 40%, 40% 60%, 40% 80%, 0 0;
+  50% {
+    background-position: 70% 50%, 30% 50%, 50% 60%, 50% 50%, 0 0;
+  }
+  75% {
+    background-position: 30% 70%, 70% 30%, 70% 30%, 20% 80%, 0 0;
   }
 }
 
