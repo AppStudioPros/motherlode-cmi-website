@@ -306,6 +306,13 @@ export default function Home() {
           <div className="text-xs text-muted">
             © {new Date().getFullYear()} Lucid Tech LLC. All rights reserved. U.S. Provisional Patent Application Filed.
           </div>
+          <div className="text-xs text-muted mt-4 flex items-center justify-center gap-4">
+            <a href="/terms" className="hover:text-gold transition-colors">Terms of Service</a>
+            <span>·</span>
+            <a href="/privacy" className="hover:text-gold transition-colors">Privacy Policy</a>
+            <span>·</span>
+            <a href="/disclosures" className="hover:text-gold transition-colors">Disclosures</a>
+          </div>
         </div>
       </footer>
     </main>
