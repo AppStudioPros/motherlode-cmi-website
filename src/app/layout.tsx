@@ -35,7 +35,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full text-text">
-        <div className="ambient-bg" aria-hidden="true"></div>
+        <div className="ambient-bg" aria-hidden="true">
+          <div className="ambient-blob ambient-blob-1"></div>
+          <div className="ambient-blob ambient-blob-2"></div>
+        </div>
         {children}
       </body>
     </html>
