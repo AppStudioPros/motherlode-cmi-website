@@ -8,12 +8,16 @@
   --foreground: #f5f5f5;
 }
 
-html, body {
-  background: var(--background);
+/* IMPORTANT: do NOT set a solid bg on html/body — that buries the ambient layer behind it.
+   The .ambient-bg (position:fixed, z-index:-1) provides the background. */
+html {
   color: var(--foreground);
+  background: transparent;
 }
 
 body {
+  background: transparent;
+  color: var(--foreground);
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21,11 +25,12 @@ body {
   overflow-x: hidden;
 }
 
-/* Animated ambient background — transform-based, guaranteed visible */
+/* Animated ambient background — transform-based, guaranteed visible.
+   z-index: 0 + isolation: isolate on body keeps it visible without hiding content. */
 .ambient-bg {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   background: linear-gradient(180deg, #1f1c2a 0%, #2a2638 50%, #1f1c2a 100%);
   overflow: hidden;
@@ -150,4 +155,36 @@ body {
 @keyframes particleDrift {
   0% { transform: translate(0, 0); }
   100% { transform: translate(60px, 60px); }
+}
+
+/* Make sure main content sits above the ambient bg layer */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Scroll-triggered reveal animation for cards */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .ambient-bg::before,
+  .ambient-bg::after,
+  .ambient-blob {
+    animation: none !important;
+  }
 }

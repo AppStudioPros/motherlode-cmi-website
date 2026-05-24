@@ -1,3 +1,5 @@
+import { Reveal } from "@/components/Reveal";
+
 export default function Home() {
   return (
     <main className="relative min-h-screen text-text">
@@ -77,30 +79,30 @@ export default function Home() {
             Five integrated layers that turn historical mining data into actionable intelligence.
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard
+            <Reveal delay={0}><FeatureCard
               title="National Critical Minerals Heatmap"
               body="Color-coded national map of every documented mineral extraction site, ranked by predicted critical-minerals content per category. Filterable by state, era, primary commodity, claim status, and regulatory framework."
-            />
-            <FeatureCard
+            /></Reveal>
+            <Reveal delay={80}><FeatureCard
               title="Bycatch Prediction Engine"
               body="Per-site predictive model with confidence intervals for rare earth elements, cobalt, lithium, nickel, gallium, germanium, antimony, tellurium, and other federally designated critical minerals."
-            />
-            <FeatureCard
+            /></Reveal>
+            <Reveal delay={160}><FeatureCard
               title="Grant-Ready Reports"
               body="One-click pre-formatted reports including site characterization, bycatch potential, reprocessing economics, ESG framework, regulatory pathway, and comparable-site case studies. Designed for direct submission alignment."
-            />
-            <FeatureCard
+            /></Reveal>
+            <Reveal delay={240}><FeatureCard
               title="Coordinator Dashboard"
               body="Single-pane view for program managers and state geological surveys. Tracks sites under evaluation, sites funded, sites in production, and outcomes per state. Cross-references domestic supply gap data to surface highest-priority opportunities."
-            />
-            <FeatureCard
+            /></Reveal>
+            <Reveal delay={320}><FeatureCard
               title="Reprocessing Pathway Integration"
               body="Tight integration with separately patent-pending mercury and heavy-metal sequestration technology, enabling end-to-end remediation-and-recovery pathway design for sites with legacy contamination."
-            />
-            <FeatureCard
+            /></Reveal>
+            <Reveal delay={400}><FeatureCard
               title="Cross-Cluster Novel Site Discovery"
               body="Geological signature matching identifies undiscovered analogs to historically productive clusters. Surfaces high-potential sites that are absent from existing databases. Patent pending."
-            />
+            /></Reveal>
           </div>
         </div>
       </section>
@@ -112,26 +114,26 @@ export default function Home() {
             Speed, coverage, technical depth, patent protection, and a system that compounds with use.
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            <SmallCard
+            <Reveal delay={0}><SmallCard
               title="Speed"
               body="Predictive intelligence per site in hours instead of months. Confidence intervals tighten as field outcomes feed back into the model."
-            />
-            <SmallCard
+            /></Reveal>
+            <Reveal delay={80}><SmallCard
               title="Coverage"
               body="Where modern surveys reach roughly five percent of the country, MotherLode CMI's historical-record integration covers the entire mining-active United States."
-            />
-            <SmallCard
+            /></Reveal>
+            <Reveal delay={160}><SmallCard
               title="Technical Depth"
               body="Multi-modal integration of historical assay records, geological signatures, era-specific recovery modeling, and modern satellite data. None of which exists in a single system today."
-            />
-            <SmallCard
+            /></Reveal>
+            <Reveal delay={240}><SmallCard
               title="Patent Protected"
               body="U.S. Provisional Patent Application Filed. Multiple novel mechanisms protected, including AI-scored mineral reactivation potential, cross-era price arbitrage, integrated remediation-pathway generation, and cross-cluster discovery."
-            />
-            <SmallCard
+            /></Reveal>
+            <Reveal delay={320}><SmallCard
               title="Compounds With Use"
               body="The system improves with every site evaluated. Partners benefit from a tool that becomes more accurate the more it is deployed across the network."
-            />
+            /></Reveal>
           </div>
         </div>
       </section>
@@ -149,21 +151,21 @@ export default function Home() {
             Every operator who deploys MotherLode CMI on a site generates ground-truth data: actual assay results, observed recovery efficiencies, encountered contamination, real-world economics. Verified field outcomes feed back into the model, tightening confidence intervals per category, refining era-specific recovery functions, and improving cross-cluster signature matching.
           </p>
           <div className="grid md:grid-cols-3 gap-6">
-            <FlywheelStep
+            <Reveal delay={0}><FlywheelStep
               num="1"
               title="Verified field outcomes flow in"
               body="Operators contribute confirmed assay results, recovery efficiency, contamination encountered, and post-extraction economics through a verified-contributor framework."
-            />
-            <FlywheelStep
+            /></Reveal>
+            <Reveal delay={150}><FlywheelStep
               num="2"
               title="The model tightens"
               body="Confidence intervals narrow. Recovery functions per era and per geological context recalibrate. Cross-cluster signature matching becomes more discriminating."
-            />
-            <FlywheelStep
+            /></Reveal>
+            <Reveal delay={300}><FlywheelStep
               num="3"
               title="Every subsequent site benefits"
               body="The next operator evaluating a comparable site receives sharper predictions, better economics, and a stronger grant-ready report than the operator before them."
-            />
+            /></Reveal>
           </div>
           <p className="text-base text-muted leading-relaxed mt-10 max-w-4xl">
             This is the data nobody else has. Federal databases hold the historical records. Modern surveys hold the contemporary geology. Operators hold the ground-truth. MotherLode CMI is the first system to integrate all three with a feedback loop that compounds across deployments.
@@ -200,6 +202,7 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {/* Corey */}
+            <Reveal delay={0}>
             <article className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 hover:bg-white/[0.06] transition-colors">
               <h3 className="text-2xl font-bold mb-1">Larry Corey Strange</h3>
               <div className="text-gold font-semibold text-sm mb-1">Founder and Chief Technology Officer</div>
@@ -233,8 +236,10 @@ export default function Home() {
                 </ul>
               </div>
             </article>
+            </Reveal>
 
             {/* Douglas */}
+            <Reveal delay={150}>
             <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 hover:bg-white/[0.05] transition-colors">
               <h3 className="text-2xl font-bold mb-1">Douglas B. Chrisey, Ph.D.</h3>
               <div className="text-gold font-semibold text-sm mb-1">Jung Chair of Materials Engineering, Tulane University</div>
@@ -257,6 +262,7 @@ export default function Home() {
                 Google Scholar profile →
               </a>
             </article>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -308,7 +314,7 @@ export default function Home() {
 
 function FeatureCard({ title, body }: { title: string; body: string }) {
   return (
-    <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-7 hover:bg-white/[0.06] transition-colors">
+    <article className="h-full rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-7 hover:bg-white/[0.08] hover:border-gold/30 hover:-translate-y-1 transition-all duration-300">
       <h3 className="text-lg font-bold mb-3 text-gold">{title}</h3>
       <p className="text-sm text-light leading-relaxed">{body}</p>
     </article>
@@ -317,7 +323,7 @@ function FeatureCard({ title, body }: { title: string; body: string }) {
 
 function SmallCard({ title, body }: { title: string; body: string }) {
   return (
-    <article className="rounded-xl border border-white/10 bg-white/[0.02] p-6">
+    <article className="h-full rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 hover:bg-white/[0.07] hover:border-gold/30 hover:-translate-y-1 transition-all duration-300">
       <h3 className="text-base font-bold mb-2 text-gold">{title}</h3>
       <p className="text-sm text-light leading-relaxed">{body}</p>
     </article>
@@ -326,7 +332,7 @@ function SmallCard({ title, body }: { title: string; body: string }) {
 
 function FlywheelStep({ num, title, body }: { num: string; title: string; body: string }) {
   return (
-    <article className="rounded-2xl border border-gold/20 bg-gradient-to-b from-white/[0.04] to-transparent p-7">
+    <article className="h-full rounded-2xl border border-gold/20 bg-gradient-to-b from-white/[0.06] to-transparent backdrop-blur-sm p-7 hover:border-gold/40 hover:-translate-y-1 transition-all duration-300">
       <div className="text-3xl font-bold text-gold mb-3">{num}</div>
       <h3 className="text-lg font-bold mb-3">{title}</h3>
       <p className="text-sm text-light leading-relaxed">{body}</p>
