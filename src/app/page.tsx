@@ -289,10 +289,10 @@ export default function Home() {
             For program inquiries, partnership conversations, and access requests, reach out directly.
           </p>
           <a
-            href="mailto:info@motherlodecmi.com"
+            href="mailto:info@webdesignpros365.com"
             className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-gradient-to-r from-gold to-copper text-ink font-semibold hover:opacity-90 transition-opacity"
           >
-            info@motherlodecmi.com
+            info@webdesignpros365.com
           </a>
         </div>
       </section>
