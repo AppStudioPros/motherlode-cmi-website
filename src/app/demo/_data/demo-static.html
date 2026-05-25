@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MotherLode CMI — Live Demo</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg-panel: #131826;
+  --bg-elev: #1a2235;
+  --border: #2a3346;
+  --border-strong: #3a4456;
+  --text: #e8edf5;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  --accent: #ffb547;
+  --accent-hover: #ffc671;
+  --accent-soft: rgba(255, 181, 71, 0.12);
+  --gold: #d4a843;
+  --green: #4ade80;
+  --red: #ef4444;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ============ Top bar ============ */
+.topbar {
+  height: 56px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-size: 16px;
+}
+.brand-sub {
+  color: var(--text-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.badge {
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 5px 11px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+
+/* ============ Container ============ */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* ============ Hero ============ */
+.hero {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 0 16px;
+}
+.hero h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 14px;
+  line-height: 1.15;
+}
+.hero h1 .accent { color: var(--accent); }
+.hero-sub {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 720px;
+  margin: 0 auto 18px;
+}
+.hero-why {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.why-pill {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.why-pill strong { color: var(--accent); font-weight: 600; }
+
+/* ============ Map block ============ */
+.map-block {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  transition: max-height 0.5s ease;
+}
+.map-block-header {
+  background: var(--bg-elev);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.map-block-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.map-block-sub {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.map-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.15s;
+}
+.map-toggle-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.map-wrap {
+  position: relative;
+  height: 480px;
+  transition: height 0.5s ease;
+  overflow: hidden;
+}
+.map-wrap.collapsed { height: 0; }
+#map { width: 100%; height: 100%; }
+.legend {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 999;
+  background: rgba(19, 24, 38, 0.96);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+.legend-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; color: var(--text-muted); }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* ============ Data Output ============ */
+.data-section {
+  display: none;
+}
+.data-section.active { display: block; }
+
+.mine-header-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.mine-header-main { flex: 1; min-width: 240px; }
+.mine-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+.mine-town { color: var(--text-muted); font-size: 13px; }
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 180px;
+}
+.score-num {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.score-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.score-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.score-of { font-size: 12px; color: var(--text-muted); }
+.score-bar-mini {
+  width: 100%;
+  height: 4px;
+  background: var(--bg);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.score-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  transition: width 0.6s ease;
+}
+
+/* Base data card */
+.base-data-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+}
+.card-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+.data-cell { }
+.data-cell-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.data-cell-value {
+  color: var(--text);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.commodity-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+.pill-primary { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.pill-critical { background: rgba(167, 139, 250, 0.12); border-color: var(--purple); color: var(--purple); }
+.merc-low { color: var(--green); font-weight: 700; }
+.merc-medium { color: var(--accent); font-weight: 700; }
+.merc-high { color: var(--red); font-weight: 700; }
+
+/* Scan controls */
+.scan-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+}
+.scan-card-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.scan-checkboxes {
+  flex: 1;
+  min-width: 280px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 6px;
+}
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+.checkbox-row:hover { border-color: var(--border-strong); color: var(--text); }
+.checkbox-row input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
+.checkbox-row.checked { color: var(--text); border-color: var(--accent); background: var(--accent-soft); }
+.scan-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 220px;
+}
+.scan-btn {
+  background: linear-gradient(135deg, var(--accent), var(--gold));
+  color: #0a0e1a;
+  border: none;
+  padding: 13px 20px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.scan-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255, 181, 71, 0.3); }
+.scan-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.clear-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+  padding: 11px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.clear-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* Scan progress */
+.scan-progress {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 24px;
+  margin-bottom: 18px;
+  display: none;
+}
+.scan-progress.active { display: block; }
+.scan-progress-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.scan-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.scan-line.done { color: var(--green); }
+.scan-line.running { color: var(--accent); }
+.scan-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.scan-check { width: 14px; height: 14px; flex-shrink: 0; color: var(--green); font-weight: 800; text-align: center; line-height: 14px; }
+.scan-pending { width: 14px; height: 14px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; }
+
+/* Result blocks */
+.result-block {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin-bottom: 14px;
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+.result-block.show { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.result-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.result-title::before {
+  content: "";
+  width: 4px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+.result-body {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text);
+}
+.result-body strong { color: var(--accent); font-weight: 700; }
+.for-sale-yes { color: var(--green); font-weight: 700; }
+.for-sale-no { color: var(--text-muted); }
+
+/* ACI Bot chat */
+.chat-block {
+  background: linear-gradient(180deg, var(--bg-panel) 0%, rgba(167, 139, 250, 0.04) 100%);
+  border: 1px solid var(--purple);
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin-bottom: 14px;
+  display: none;
+}
+.chat-block.show { display: block; }
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--purple);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.chat-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--purple);
+  box-shadow: 0 0 8px var(--purple);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.chat-messages {
+  max-height: 280px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-right: 6px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+.msg {
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.msg-user {
+  background: var(--bg-elev);
+  color: var(--text);
+  margin-left: 40px;
+  border-left: 2px solid var(--accent);
+}
+.msg-bot {
+  background: rgba(167, 139, 250, 0.08);
+  border-left: 2px solid var(--purple);
+  color: var(--text);
+  margin-right: 40px;
+}
+.msg strong { color: var(--purple); }
+.msg-user strong { color: var(--accent); }
+.chat-input-row { display: flex; gap: 8px; }
+.chat-input {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.chat-input:focus { outline: none; border-color: var(--purple); }
+.chat-send {
+  background: var(--purple);
+  color: white;
+  border: none;
+  padding: 0 18px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+.chat-typing {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-style: italic;
+  padding: 6px 0 0;
+}
+
+/* Footer */
+.footer-note {
+  text-align: center;
+  margin-top: 40px;
+  color: var(--text-subtle);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+/* ============ Responsive — Tablet ============ */
+@media (max-width: 980px) {
+  .container { padding: 24px 18px 60px; }
+  .topbar { padding: 0 18px; }
+  .hero h1 { font-size: 28px; }
+  .hero-sub { font-size: 14.5px; }
+  .map-wrap { height: 420px; }
+  .data-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+  .scan-card-row { flex-direction: column; }
+  .scan-actions { width: 100%; flex-direction: row; }
+  .scan-btn, .clear-btn { flex: 1; }
+}
+
+/* ============ Responsive — Mobile ============ */
+@media (max-width: 720px) {
+  /* Top bar — keep brand + badge, slim down */
+  .topbar {
+    height: 52px;
+    padding: 0 14px;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+  .brand { gap: 8px; min-width: 0; }
+  .brand-name { font-size: 14px; }
+  .brand-sub { display: none; }
+  .badge { font-size: 9.5px; padding: 4px 8px; letter-spacing: 0.5px; }
+  .badge-dot { width: 5px; height: 5px; }
+
+  /* Container */
+  .container { padding: 20px 14px 60px; }
+
+  /* Hero */
+  .hero { margin-bottom: 24px; padding: 0 4px; }
+  .hero h1 {
+    font-size: 22px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+  }
+  .hero h1 br { display: none; }
+  .hero-sub { font-size: 13.5px; line-height: 1.55; margin-bottom: 14px; }
+  .hero-why { gap: 6px; margin-top: 10px; }
+  .why-pill {
+    font-size: 11px;
+    padding: 5px 10px;
+    line-height: 1.4;
+  }
+
+  /* Map block */
+  .map-block { margin-bottom: 18px; border-radius: 6px; }
+  .map-block-header {
+    padding: 10px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .map-block-title {
+    font-size: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    line-height: 1.3;
+  }
+  .map-block-sub { font-size: 10.5px; }
+  .map-toggle-btn {
+    align-self: flex-start;
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+  .map-wrap { height: 340px; }
+  .legend {
+    bottom: 8px;
+    left: 8px;
+    padding: 7px 10px;
+    font-size: 10px;
+  }
+  .legend-row { gap: 6px; margin: 2px 0; }
+  .dot { width: 8px; height: 8px; }
+
+  /* Mine header card */
+  .mine-header-card {
+    flex-direction: column;
+    padding: 16px 18px;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .mine-name { font-size: 20px; }
+  .mine-town { font-size: 12px; }
+  .score-display { width: 100%; gap: 10px; }
+  .score-num { font-size: 32px; }
+  .score-label { font-size: 9px; letter-spacing: 0.8px; }
+
+  /* Base data card */
+  .base-data-card { padding: 16px 18px; margin-bottom: 14px; }
+  .card-title { font-size: 10px; letter-spacing: 1.2px; margin-bottom: 12px; padding-bottom: 8px; }
+  .data-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .data-cell-label { font-size: 9px; letter-spacing: 0.8px; }
+  .data-cell-value { font-size: 12.5px; line-height: 1.45; }
+  .pill { font-size: 10.5px; padding: 2px 7px; }
+
+  /* Scan card */
+  .scan-card { padding: 16px 18px; margin-bottom: 14px; }
+  .scan-card-row { flex-direction: column; gap: 14px; }
+  .scan-checkboxes {
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    width: 100%;
+  }
+  .checkbox-row {
+    padding: 7px 9px;
+    font-size: 11px;
+    gap: 6px;
+  }
+  .scan-actions {
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    gap: 6px;
+  }
+  .scan-btn { padding: 12px 16px; font-size: 12px; }
+  .clear-btn { padding: 10px 16px; font-size: 11px; }
+
+  /* Scan progress */
+  .scan-progress { padding: 14px 18px; }
+  .scan-progress-title { font-size: 10px; letter-spacing: 1.2px; }
+  .scan-line { font-size: 12px; gap: 10px; }
+  .scan-spinner, .scan-check, .scan-pending { width: 12px; height: 12px; }
+
+  /* Result blocks */
+  .result-block { padding: 14px 18px; margin-bottom: 10px; border-radius: 6px; }
+  .result-title { font-size: 10.5px; letter-spacing: 1.2px; margin-bottom: 8px; }
+  .result-body { font-size: 12.5px; line-height: 1.6; }
+
+  /* Chat */
+  .chat-block { padding: 14px 16px; }
+  .chat-header { font-size: 11px; letter-spacing: 1.2px; }
+  .chat-messages { max-height: 260px; font-size: 12.5px; }
+  .msg { padding: 9px 11px; }
+  .msg-user { margin-left: 20px; }
+  .msg-bot { margin-right: 20px; }
+  .chat-input { font-size: 14px; padding: 10px 12px; } /* 14px+ prevents iOS zoom-on-focus */
+  .chat-send { padding: 0 14px; font-size: 14px; }
+}
+
+/* ============ Very small phones ============ */
+@media (max-width: 380px) {
+  .container { padding: 16px 12px 50px; }
+  .topbar { padding: 0 10px; }
+  .brand-name { font-size: 13px; }
+  .badge { font-size: 9px; padding: 3px 7px; }
+  .hero h1 { font-size: 20px; }
+  .hero-sub { font-size: 13px; }
+  .map-wrap { height: 300px; }
+  .data-grid { grid-template-columns: 1fr; gap: 12px; }
+  .scan-checkboxes { grid-template-columns: 1fr; }
+  .score-num { font-size: 28px; }
+  .mine-name { font-size: 18px; }
+}
+
+/* ============ iOS touch-friendly tap targets ============ */
+@media (hover: none) and (pointer: coarse) {
+  .checkbox-row, .scan-btn, .clear-btn, .map-toggle-btn, .chat-send {
+    min-height: 44px;
+  }
+  .map-toggle-btn { min-height: 36px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="brand-name">MotherLode CMI</span>
+    <span class="brand-sub">Live Demo · Colorado Front Range</span>
+  </div>
+  <span class="badge"><span class="badge-dot"></span>Patent Filed · Confidential</span>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Per-site <span class="accent">critical-minerals intelligence</span><br/>across the entire mining-active United States.</h1>
+    <p class="hero-sub">
+      MotherLode CMI integrates AI with comprehensive historical mining records, federal and state databases, and modern geological data to predict per-site critical-minerals content at fidelity not previously available — and at speeds measured in hours, not months.
+    </p>
+    <div class="hero-why">
+      <span class="why-pill"><strong>~95%</strong> of mining-active U.S. land outside modern survey coverage</span>
+      <span class="why-pill"><strong>100K+</strong> documented historical sites with no critical-minerals characterization</span>
+      <span class="why-pill"><strong>$50K–$200K</strong> replaced per site in engineering pre-screen costs</span>
+      <span class="why-pill"><strong>Patent Filed</strong> — proprietary AI-scored reactivation methodology</span>
+    </div>
+  </div>
+
+  <!-- MAP BLOCK -->
+  <div class="map-block">
+    <div class="map-block-header">
+      <div class="map-block-title">
+        ⛏ Golden → Nederland Corridor
+        <span class="map-block-sub">12 historically documented sites · Click any pin to load base data and run a scan</span>
+      </div>
+      <button class="map-toggle-btn" id="mapToggleBtn">Collapse Map</button>
+    </div>
+    <div class="map-wrap" id="mapWrap">
+      <div id="map"></div>
+      <div class="legend">
+        <div class="legend-row"><span class="dot" style="background: var(--green);"></span>Score 80-100 · High potential</div>
+        <div class="legend-row"><span class="dot" style="background: var(--accent);"></span>Score 60-79 · Medium</div>
+        <div class="legend-row"><span class="dot" style="background: var(--text-subtle);"></span>Score &lt;60 · Lower</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA OUTPUT (renders after selection) -->
+  <div class="data-section" id="dataSection"></div>
+
+  <div class="footer-note">
+    © 2026 Lucid Tech LLC · MotherLode CMI · Patent Filed · For evaluation purposes only.
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+// ============================================================
+// MAP SETUP
+// ============================================================
+const MAPTILER_KEY = '0BmtzeAwpwMygWvhmjdq';
+const map = L.map('map', {
+  center: [39.85, -105.52],
+  zoom: 10,
+  zoomControl: true,
+});
+
+if (MAPTILER_KEY) {
+  L.tileLayer(`https://api.maptiler.com/maps/streets-v2-dark/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`, {
+    tileSize: 512,
+    zoomOffset: -1,
+    minZoom: 1,
+    attribution: '\u00A9 MapTiler \u00A9 OpenStreetMap contributors',
+    crossOrigin: true,
+  }).addTo(map);
+} else {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '\u00A9 OpenStreetMap contributors \u00A9 CARTO',
+    subdomains: 'abcd',
+    maxZoom: 19,
+  }).addTo(map);
+}
+
+let mines = [];
+let activeMine = null;
+let scanning = false;
+
+const dataSection = document.getElementById('dataSection');
+const mapWrap = document.getElementById('mapWrap');
+const mapToggleBtn = document.getElementById('mapToggleBtn');
+
+// Map toggle
+function setMapCollapsed(collapsed) {
+  if (collapsed) {
+    mapWrap.classList.add('collapsed');
+    mapToggleBtn.textContent = 'Expand Map';
+  } else {
+    mapWrap.classList.remove('collapsed');
+    mapToggleBtn.textContent = 'Collapse Map';
+    setTimeout(() => map.invalidateSize(), 550);
+  }
+}
+mapToggleBtn.addEventListener('click', () => {
+  setMapCollapsed(!mapWrap.classList.contains('collapsed'));
+});
+
+async function loadMines() {
+  const res = await fetch('/api/mines');
+  mines = await res.json();
+  renderPins();
+}
+
+function pinColor(score) {
+  if (score >= 80) return '#4ade80';
+  if (score >= 60) return '#ffb547';
+  return '#64748b';
+}
+
+function renderPins() {
+  mines.forEach(mine => {
+    const color = pinColor(mine.redig_potential_score);
+    const icon = L.divIcon({
+      className: 'pin',
+      html: `<div style="width:18px;height:18px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 0 8px ${color};cursor:pointer;"></div>`,
+      iconSize: [22, 22],
+      iconAnchor: [11, 11],
+    });
+    const marker = L.marker([mine.lat, mine.lng], { icon }).addTo(map);
+    marker.bindTooltip(`${mine.name}<br/><small>Score ${mine.redig_potential_score}</small>`, {
+      direction: 'top',
+      offset: [0, -8],
+    });
+    marker.on('click', () => selectMine(mine));
+  });
+}
+
+// ============================================================
+// MINE SELECTION
+// ============================================================
+function selectMine(mine) {
+  activeMine = mine;
+  renderMineData(mine);
+  dataSection.classList.add('active');
+  // Smooth scroll to the data section
+  setTimeout(() => {
+    dataSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+function renderMineData(mine) {
+  const commodities = [
+    `<span class="pill pill-primary">${mine.commodity_primary}</span>`,
+    ...mine.commodities_secondary.map(c => `<span class="pill">${c}</span>`),
+  ].join('');
+
+  const critical = (mine.critical_minerals_bycatch || [])
+    .map(c => `<span class="pill pill-critical">${c}</span>`).join('');
+
+  const mercClass = `merc-${mine.mercury_risk}`;
+
+  dataSection.innerHTML = `
+    <!-- Header card -->
+    <div class="mine-header-card">
+      <div class="mine-header-main">
+        <div class="mine-name">${mine.name}</div>
+        <div class="mine-town">📍 ${mine.town}</div>
+      </div>
+      <div class="score-display">
+        <div class="score-num">${mine.redig_potential_score}</div>
+        <div class="score-meta">
+          <span class="score-label">Redig Potential</span>
+          <span class="score-of">out of 100</span>
+          <div class="score-bar-mini"><div class="score-fill" style="width: ${mine.redig_potential_score}%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Base data card -->
+    <div class="base-data-card">
+      <div class="card-title">Base Data — Historical Record</div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Commodities</div>
+          <div class="commodity-pills">${commodities}</div>
+        </div>
+        ${critical ? `<div class="data-cell">
+          <div class="data-cell-label">Predicted Critical-Minerals Bycatch</div>
+          <div class="commodity-pills">${critical}</div>
+        </div>` : ''}
+        <div class="data-cell">
+          <div class="data-cell-label">Operational Period</div>
+          <div class="data-cell-value">${mine.operational_period}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Production Volume</div>
+          <div class="data-cell-value">${mine.production_volume}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Era Recovery Method</div>
+          <div class="data-cell-value">${mine.recovery_method_used}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Mercury Risk</div>
+          <div class="data-cell-value ${mercClass}">${mine.mercury_risk.toUpperCase()}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Estimated Remaining Grade</div>
+          <div class="data-cell-value">${mine.estimated_remaining_grade_low} to ${mine.estimated_remaining_grade_high}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Tailings Volume</div>
+          <div class="data-cell-value">${mine.tailings_volume_estimate}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Geological Formation</div>
+          <div class="data-cell-value">${mine.geological_formation}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Satellite Signature</div>
+          <div class="data-cell-value">${mine.satellite_signature}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Claim Status</div>
+          <div class="data-cell-value">${mine.claim_status}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Close Reason</div>
+          <div class="data-cell-value">${mine.close_reason}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scan controls -->
+    <div class="scan-card">
+      <div class="card-title">Data Layers to Scan</div>
+      <div class="scan-card-row">
+        <div class="scan-checkboxes" id="checkboxes">
+          ${[
+            ['mrds', 'USGS MRDS'],
+            ['blm', 'BLM LR2000 / MLRS'],
+            ['ussbulletin', 'Historical USGS Bulletins'],
+            ['sentinel', 'Sentinel-2 Spectroscopy'],
+            ['statesurvey', 'State Geological Survey'],
+            ['marketplace', 'Public Listings'],
+            ['newspapers', 'Historical Newspapers'],
+            ['superfund', 'EPA Superfund Registry'],
+          ].map(([k, label]) => `
+            <label class="checkbox-row checked" data-key="${k}">
+              <input type="checkbox" checked /> ${label}
+            </label>
+          `).join('')}
+        </div>
+        <div class="scan-actions">
+          <button class="scan-btn" id="scanBtn">⚡ Scan for Opportunities</button>
+          <button class="clear-btn" id="clearBtn">↺ Clear & Restart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scan progress -->
+    <div class="scan-progress" id="scanProgress">
+      <div class="scan-progress-title">Scanning Integrated Data Layers</div>
+      <div id="scanLines"></div>
+    </div>
+
+    <!-- Result blocks -->
+    <div class="result-block" id="forSaleBlock">
+      <div class="result-title">For-Sale Status &amp; Ownership</div>
+      <div class="result-body" id="forSaleBody"></div>
+    </div>
+
+    <div class="result-block" id="closeReasonBlock">
+      <div class="result-title">Last-Known Close Data</div>
+      <div class="result-body" id="closeReasonBody"></div>
+    </div>
+
+    <div class="result-block" id="opportunityBlock">
+      <div class="result-title">Opportunity Assessment</div>
+      <div class="result-body" id="opportunityBody"></div>
+    </div>
+
+    <div class="result-block" id="roiBlock">
+      <div class="result-title">Estimated ROI &amp; Timeline</div>
+      <div class="result-body" id="roiBody"></div>
+    </div>
+
+    <!-- ACI Bot chat -->
+    <div class="chat-block" id="chatBlock">
+      <div class="chat-header">
+        <span class="chat-pulse"></span>
+        ACI Bot · Ask About This Site
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Ask about ${mine.name}..." />
+        <button class="chat-send" id="chatSend">→</button>
+      </div>
+    </div>
+  `;
+
+  // Wire checkbox toggle
+  document.querySelectorAll('.checkbox-row').forEach(row => {
+    row.addEventListener('click', e => {
+      if (e.target.tagName !== 'INPUT') {
+        const cb = row.querySelector('input');
+        cb.checked = !cb.checked;
+      }
+      row.classList.toggle('checked', row.querySelector('input').checked);
+    });
+  });
+
+  // Wire scan button
+  document.getElementById('scanBtn').addEventListener('click', runScan);
+
+  // Wire clear button
+  document.getElementById('clearBtn').addEventListener('click', clearAll);
+
+  // Wire chat
+  document.getElementById('chatSend').addEventListener('click', sendChat);
+  document.getElementById('chatInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendChat();
+  });
+}
+
+// ============================================================
+// CLEAR / RESTART
+// ============================================================
+function clearAll() {
+  activeMine = null;
+  dataSection.innerHTML = '';
+  dataSection.classList.remove('active');
+  setMapCollapsed(false);
+  // Scroll back to map
+  document.querySelector('.map-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// SCAN FLOW
+// ============================================================
+async function runScan() {
+  if (scanning) return;
+  const checkedLayers = Array.from(document.querySelectorAll('.checkbox-row input:checked'))
+    .map(cb => cb.parentElement.dataset.key);
+
+  if (checkedLayers.length === 0) {
+    alert('Please select at least one data layer to scan.');
+    return;
+  }
+
+  scanning = true;
+
+  // Auto-collapse map when scan starts
+  setMapCollapsed(true);
+
+  // Hide previous results
+  ['forSaleBlock', 'closeReasonBlock', 'opportunityBlock', 'roiBlock', 'chatBlock'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
+  });
+
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  btn.textContent = 'Scanning...';
+
+  const progress = document.getElementById('scanProgress');
+  const lines = document.getElementById('scanLines');
+  progress.classList.add('active');
+  lines.innerHTML = '';
+
+  // Scroll progress into view
+  setTimeout(() => {
+    progress.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 200);
+
+  const layerLabels = {
+    mrds: 'USGS MRDS — historical mineral records',
+    blm: 'BLM LR2000 / MLRS — current claim status',
+    ussbulletin: 'Historical USGS Bulletins — OCR + extraction',
+    sentinel: 'Sentinel-2 multispectral spectroscopy',
+    statesurvey: 'Colorado Geological Survey records',
+    marketplace: 'Public listing platforms (Realmo, Mountain Man Mining)',
+    newspapers: 'Historical newspaper archives',
+    superfund: 'EPA Superfund / RCRA contamination registry',
+  };
+
+  checkedLayers.forEach(k => {
+    const div = document.createElement('div');
+    div.className = 'scan-line';
+    div.id = `scan-${k}`;
+    div.innerHTML = `<span class="scan-pending"></span><span class="scan-line-text">${layerLabels[k]}</span>`;
+    lines.appendChild(div);
+  });
+
+  try {
+    const res = await fetch('/api/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mine_id: activeMine.id, layers: checkedLayers }),
+    });
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const eventLines = buffer.split('\n');
+      buffer = eventLines.pop();
+      for (const line of eventLines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = JSON.parse(line.slice(6));
+        handleScanEvent(data);
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Scan failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '⚡ Scan for Opportunities';
+    scanning = false;
+  }
+}
+
+function handleScanEvent(evt) {
+  if (evt.type === 'layer_start') {
+    const row = document.getElementById(`scan-${evt.layer}`);
+    if (row) {
+      row.className = 'scan-line running';
+      const txt = row.querySelector('.scan-line-text').textContent;
+      row.innerHTML = `<span class="scan-spinner"></span><span class="scan-line-text">${txt} — querying...</span>`;
+    }
+  } else if (evt.type === 'layer_done') {
+    const row = document.getElementById(`scan-${evt.layer}`);
+    if (row) {
+      row.className = 'scan-line done';
+      const txt = row.querySelector('.scan-line-text').textContent.split(' — ')[0];
+      row.innerHTML = `<span class="scan-check">✓</span><span class="scan-line-text">${txt} — ${evt.summary}</span>`;
+    }
+  } else if (evt.type === 'result') {
+    showResult(evt.block, evt.body);
+  } else if (evt.type === 'done') {
+    const chat = document.getElementById('chatBlock');
+    chat.classList.add('show');
+    setTimeout(() => chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 400);
+    addBotMsg(`I have the data on **${activeMine.name}** loaded. What do you want to know about this site?`);
+  }
+}
+
+function showResult(blockKey, body) {
+  const map = {
+    for_sale: ['forSaleBlock', 'forSaleBody'],
+    close_reason: ['closeReasonBlock', 'closeReasonBody'],
+    opportunity: ['opportunityBlock', 'opportunityBody'],
+    roi: ['roiBlock', 'roiBody'],
+  };
+  const [blockId, bodyId] = map[blockKey] || [];
+  if (blockId) {
+    const block = document.getElementById(blockId);
+    block.classList.add('show');
+    document.getElementById(bodyId).innerHTML = body;
+    // Auto-scroll to the new result
+    setTimeout(() => {
+      block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
+}
+
+// ============================================================
+// CHAT
+// ============================================================
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  addUserMsg(text);
+
+  const messages = document.getElementById('chatMessages');
+  const typing = document.createElement('div');
+  typing.className = 'chat-typing';
+  typing.textContent = 'ACI Bot is thinking...';
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mine_id: activeMine.id, message: text }),
+    });
+    const data = await res.json();
+    typing.remove();
+    addBotMsg(data.reply);
+  } catch (err) {
+    typing.remove();
+    addBotMsg('I had a momentary issue. Try asking again?');
+  }
+}
+
+function addUserMsg(text) {
+  const messages = document.getElementById('chatMessages');
+  const m = document.createElement('div');
+  m.className = 'msg msg-user';
+  m.textContent = text;
+  messages.appendChild(m);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function addBotMsg(text) {
+  const messages = document.getElementById('chatMessages');
+  const m = document.createElement('div');
+  m.className = 'msg msg-bot';
+  m.innerHTML = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
+  messages.appendChild(m);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadMines();
+</script>
+</body>
+</html>
