@@ -15,6 +15,11 @@ export function DemoClient({ demoLogic }: { demoLogic: string }) {
     if (initialized.current) return;
     initialized.current = true;
 
+    // Remove the marketing-site ambient background overlay so the demo's
+    // own dark theme isn't fighting with the homepage gold-glow.
+    document.querySelectorAll(".ambient-bg").forEach((el) => el.remove());
+    document.body.classList.add("demo-body-active");
+
     const tryStart = () => {
       if (typeof window === "undefined" || !(window as unknown as { L?: unknown }).L) {
         // Leaflet not loaded yet, retry in 100ms
@@ -29,7 +34,11 @@ export function DemoClient({ demoLogic }: { demoLogic: string }) {
       }
     };
     tryStart();
-  }, []);
+
+    return () => {
+      document.body.classList.remove("demo-body-active");
+    };
+  }, [demoLogic]);
 
   return (
     <>

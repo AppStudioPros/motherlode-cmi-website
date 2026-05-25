@@ -1,3 +1,16 @@
+/* === Demo-only overrides: defeat the marketing layout's globals === */
+body.demo-body-active {
+  background: #0a0e1a !important;
+  color: #e8edf5 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", sans-serif !important;
+  font-size: 14px !important;
+}
+body.demo-body-active .ambient-bg { display: none !important; }
+/* Marketing layout uses Tailwind's text-text class; reset that for the demo */
+body.demo-body-active.min-h-full.text-text {
+  color: #e8edf5;
+}
+
 :root {
   --bg: #0a0e1a;
   --bg-panel: #131826;
