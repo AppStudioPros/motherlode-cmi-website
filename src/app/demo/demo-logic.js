@@ -1,0 +1,468 @@
+// This file is the original demo's JS logic — loaded into a useEffect by DemoClient.tsx
+// ============================================================
+// MAP SETUP
+// ============================================================
+const MAPTILER_KEY = '0BmtzeAwpwMygWvhmjdq';
+const map = L.map('map', {
+  center: [39.85, -105.52],
+  zoom: 10,
+  zoomControl: true,
+});
+
+if (MAPTILER_KEY) {
+  L.tileLayer(`https://api.maptiler.com/maps/streets-v2-dark/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`, {
+    tileSize: 512,
+    zoomOffset: -1,
+    minZoom: 1,
+    attribution: '\u00A9 MapTiler \u00A9 OpenStreetMap contributors',
+    crossOrigin: true,
+  }).addTo(map);
+} else {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '\u00A9 OpenStreetMap contributors \u00A9 CARTO',
+    subdomains: 'abcd',
+    maxZoom: 19,
+  }).addTo(map);
+}
+
+let mines = [];
+let activeMine = null;
+let scanning = false;
+
+const dataSection = document.getElementById('dataSection');
+const mapWrap = document.getElementById('mapWrap');
+const mapToggleBtn = document.getElementById('mapToggleBtn');
+
+// Map toggle
+function setMapCollapsed(collapsed) {
+  if (collapsed) {
+    mapWrap.classList.add('collapsed');
+    mapToggleBtn.textContent = 'Expand Map';
+  } else {
+    mapWrap.classList.remove('collapsed');
+    mapToggleBtn.textContent = 'Collapse Map';
+    setTimeout(() => map.invalidateSize(), 550);
+  }
+}
+mapToggleBtn.addEventListener('click', () => {
+  setMapCollapsed(!mapWrap.classList.contains('collapsed'));
+});
+
+async function loadMines() {
+  const res = await fetch('/api/mines');
+  mines = await res.json();
+  renderPins();
+}
+
+function pinColor(score) {
+  if (score >= 80) return '#4ade80';
+  if (score >= 60) return '#ffb547';
+  return '#64748b';
+}
+
+function renderPins() {
+  mines.forEach(mine => {
+    const color = pinColor(mine.redig_potential_score);
+    const icon = L.divIcon({
+      className: 'pin',
+      html: `<div style="width:18px;height:18px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 0 8px ${color};cursor:pointer;"></div>`,
+      iconSize: [22, 22],
+      iconAnchor: [11, 11],
+    });
+    const marker = L.marker([mine.lat, mine.lng], { icon }).addTo(map);
+    marker.bindTooltip(`${mine.name}<br/><small>Score ${mine.redig_potential_score}</small>`, {
+      direction: 'top',
+      offset: [0, -8],
+    });
+    marker.on('click', () => selectMine(mine));
+  });
+}
+
+// ============================================================
+// MINE SELECTION
+// ============================================================
+function selectMine(mine) {
+  activeMine = mine;
+  renderMineData(mine);
+  dataSection.classList.add('active');
+  // Smooth scroll to the data section
+  setTimeout(() => {
+    dataSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+function renderMineData(mine) {
+  const commodities = [
+    `<span class="pill pill-primary">${mine.commodity_primary}</span>`,
+    ...mine.commodities_secondary.map(c => `<span class="pill">${c}</span>`),
+  ].join('');
+
+  const critical = (mine.critical_minerals_bycatch || [])
+    .map(c => `<span class="pill pill-critical">${c}</span>`).join('');
+
+  const mercClass = `merc-${mine.mercury_risk}`;
+
+  dataSection.innerHTML = `
+    <!-- Header card -->
+    <div class="mine-header-card">
+      <div class="mine-header-main">
+        <div class="mine-name">${mine.name}</div>
+        <div class="mine-town">📍 ${mine.town}</div>
+      </div>
+      <div class="score-display">
+        <div class="score-num">${mine.redig_potential_score}</div>
+        <div class="score-meta">
+          <span class="score-label">Redig Potential</span>
+          <span class="score-of">out of 100</span>
+          <div class="score-bar-mini"><div class="score-fill" style="width: ${mine.redig_potential_score}%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Base data card -->
+    <div class="base-data-card">
+      <div class="card-title">Base Data — Historical Record</div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Commodities</div>
+          <div class="commodity-pills">${commodities}</div>
+        </div>
+        ${critical ? `<div class="data-cell">
+          <div class="data-cell-label">Predicted Critical-Minerals Bycatch</div>
+          <div class="commodity-pills">${critical}</div>
+        </div>` : ''}
+        <div class="data-cell">
+          <div class="data-cell-label">Operational Period</div>
+          <div class="data-cell-value">${mine.operational_period}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Production Volume</div>
+          <div class="data-cell-value">${mine.production_volume}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Era Recovery Method</div>
+          <div class="data-cell-value">${mine.recovery_method_used}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Mercury Risk</div>
+          <div class="data-cell-value ${mercClass}">${mine.mercury_risk.toUpperCase()}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Estimated Remaining Grade</div>
+          <div class="data-cell-value">${mine.estimated_remaining_grade_low} to ${mine.estimated_remaining_grade_high}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Tailings Volume</div>
+          <div class="data-cell-value">${mine.tailings_volume_estimate}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Geological Formation</div>
+          <div class="data-cell-value">${mine.geological_formation}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Satellite Signature</div>
+          <div class="data-cell-value">${mine.satellite_signature}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Claim Status</div>
+          <div class="data-cell-value">${mine.claim_status}</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Close Reason</div>
+          <div class="data-cell-value">${mine.close_reason}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scan controls -->
+    <div class="scan-card">
+      <div class="card-title">Data Layers to Scan</div>
+      <div class="scan-card-row">
+        <div class="scan-checkboxes" id="checkboxes">
+          ${[
+            ['mrds', 'USGS MRDS'],
+            ['blm', 'BLM LR2000 / MLRS'],
+            ['ussbulletin', 'Historical USGS Bulletins'],
+            ['sentinel', 'Sentinel-2 Spectroscopy'],
+            ['statesurvey', 'State Geological Survey'],
+            ['marketplace', 'Public Listings'],
+            ['newspapers', 'Historical Newspapers'],
+            ['superfund', 'EPA Superfund Registry'],
+          ].map(([k, label]) => `
+            <label class="checkbox-row checked" data-key="${k}">
+              <input type="checkbox" checked /> ${label}
+            </label>
+          `).join('')}
+        </div>
+        <div class="scan-actions">
+          <button class="scan-btn" id="scanBtn">⚡ Scan for Opportunities</button>
+          <button class="clear-btn" id="clearBtn">↺ Clear & Restart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scan progress -->
+    <div class="scan-progress" id="scanProgress">
+      <div class="scan-progress-title">Scanning Integrated Data Layers</div>
+      <div id="scanLines"></div>
+    </div>
+
+    <!-- Result blocks -->
+    <div class="result-block" id="forSaleBlock">
+      <div class="result-title">For-Sale Status &amp; Ownership</div>
+      <div class="result-body" id="forSaleBody"></div>
+    </div>
+
+    <div class="result-block" id="closeReasonBlock">
+      <div class="result-title">Last-Known Close Data</div>
+      <div class="result-body" id="closeReasonBody"></div>
+    </div>
+
+    <div class="result-block" id="opportunityBlock">
+      <div class="result-title">Opportunity Assessment</div>
+      <div class="result-body" id="opportunityBody"></div>
+    </div>
+
+    <div class="result-block" id="roiBlock">
+      <div class="result-title">Estimated ROI &amp; Timeline</div>
+      <div class="result-body" id="roiBody"></div>
+    </div>
+
+    <!-- ACI Bot chat -->
+    <div class="chat-block" id="chatBlock">
+      <div class="chat-header">
+        <span class="chat-pulse"></span>
+        ACI Bot · Ask About This Site
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Ask about ${mine.name}..." />
+        <button class="chat-send" id="chatSend">→</button>
+      </div>
+    </div>
+  `;
+
+  // Wire checkbox toggle
+  document.querySelectorAll('.checkbox-row').forEach(row => {
+    row.addEventListener('click', e => {
+      if (e.target.tagName !== 'INPUT') {
+        const cb = row.querySelector('input');
+        cb.checked = !cb.checked;
+      }
+      row.classList.toggle('checked', row.querySelector('input').checked);
+    });
+  });
+
+  // Wire scan button
+  document.getElementById('scanBtn').addEventListener('click', runScan);
+
+  // Wire clear button
+  document.getElementById('clearBtn').addEventListener('click', clearAll);
+
+  // Wire chat
+  document.getElementById('chatSend').addEventListener('click', sendChat);
+  document.getElementById('chatInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendChat();
+  });
+}
+
+// ============================================================
+// CLEAR / RESTART
+// ============================================================
+function clearAll() {
+  activeMine = null;
+  dataSection.innerHTML = '';
+  dataSection.classList.remove('active');
+  setMapCollapsed(false);
+  // Scroll back to map
+  document.querySelector('.map-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// SCAN FLOW
+// ============================================================
+async function runScan() {
+  if (scanning) return;
+  const checkedLayers = Array.from(document.querySelectorAll('.checkbox-row input:checked'))
+    .map(cb => cb.parentElement.dataset.key);
+
+  if (checkedLayers.length === 0) {
+    alert('Please select at least one data layer to scan.');
+    return;
+  }
+
+  scanning = true;
+
+  // Auto-collapse map when scan starts
+  setMapCollapsed(true);
+
+  // Hide previous results
+  ['forSaleBlock', 'closeReasonBlock', 'opportunityBlock', 'roiBlock', 'chatBlock'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
+  });
+
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  btn.textContent = 'Scanning...';
+
+  const progress = document.getElementById('scanProgress');
+  const lines = document.getElementById('scanLines');
+  progress.classList.add('active');
+  lines.innerHTML = '';
+
+  // Scroll progress into view
+  setTimeout(() => {
+    progress.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 200);
+
+  const layerLabels = {
+    mrds: 'USGS MRDS — historical mineral records',
+    blm: 'BLM LR2000 / MLRS — current claim status',
+    ussbulletin: 'Historical USGS Bulletins — OCR + extraction',
+    sentinel: 'Sentinel-2 multispectral spectroscopy',
+    statesurvey: 'Colorado Geological Survey records',
+    marketplace: 'Public listing platforms (Realmo, Mountain Man Mining)',
+    newspapers: 'Historical newspaper archives',
+    superfund: 'EPA Superfund / RCRA contamination registry',
+  };
+
+  checkedLayers.forEach(k => {
+    const div = document.createElement('div');
+    div.className = 'scan-line';
+    div.id = `scan-${k}`;
+    div.innerHTML = `<span class="scan-pending"></span><span class="scan-line-text">${layerLabels[k]}</span>`;
+    lines.appendChild(div);
+  });
+
+  try {
+    const res = await fetch('/api/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mine_id: activeMine.id, layers: checkedLayers }),
+    });
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const eventLines = buffer.split('\n');
+      buffer = eventLines.pop();
+      for (const line of eventLines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = JSON.parse(line.slice(6));
+        handleScanEvent(data);
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Scan failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '⚡ Scan for Opportunities';
+    scanning = false;
+  }
+}
+
+function handleScanEvent(evt) {
+  if (evt.type === 'layer_start') {
+    const row = document.getElementById(`scan-${evt.layer}`);
+    if (row) {
+      row.className = 'scan-line running';
+      const txt = row.querySelector('.scan-line-text').textContent;
+      row.innerHTML = `<span class="scan-spinner"></span><span class="scan-line-text">${txt} — querying...</span>`;
+    }
+  } else if (evt.type === 'layer_done') {
+    const row = document.getElementById(`scan-${evt.layer}`);
+    if (row) {
+      row.className = 'scan-line done';
+      const txt = row.querySelector('.scan-line-text').textContent.split(' — ')[0];
+      row.innerHTML = `<span class="scan-check">✓</span><span class="scan-line-text">${txt} — ${evt.summary}</span>`;
+    }
+  } else if (evt.type === 'result') {
+    showResult(evt.block, evt.body);
+  } else if (evt.type === 'done') {
+    const chat = document.getElementById('chatBlock');
+    chat.classList.add('show');
+    setTimeout(() => chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 400);
+    addBotMsg(`I have the data on **${activeMine.name}** loaded. What do you want to know about this site?`);
+  }
+}
+
+function showResult(blockKey, body) {
+  const map = {
+    for_sale: ['forSaleBlock', 'forSaleBody'],
+    close_reason: ['closeReasonBlock', 'closeReasonBody'],
+    opportunity: ['opportunityBlock', 'opportunityBody'],
+    roi: ['roiBlock', 'roiBody'],
+  };
+  const [blockId, bodyId] = map[blockKey] || [];
+  if (blockId) {
+    const block = document.getElementById(blockId);
+    block.classList.add('show');
+    document.getElementById(bodyId).innerHTML = body;
+    // Auto-scroll to the new result
+    setTimeout(() => {
+      block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
+}
+
+// ============================================================
+// CHAT
+// ============================================================
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  addUserMsg(text);
+
+  const messages = document.getElementById('chatMessages');
+  const typing = document.createElement('div');
+  typing.className = 'chat-typing';
+  typing.textContent = 'ACI Bot is thinking...';
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mine_id: activeMine.id, message: text }),
+    });
+    const data = await res.json();
+    typing.remove();
+    addBotMsg(data.reply);
+  } catch (err) {
+    typing.remove();
+    addBotMsg('I had a momentary issue. Try asking again?');
+  }
+}
+
+function addUserMsg(text) {
+  const messages = document.getElementById('chatMessages');
+  const m = document.createElement('div');
+  m.className = 'msg msg-user';
+  m.textContent = text;
+  messages.appendChild(m);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function addBotMsg(text) {
+  const messages = document.getElementById('chatMessages');
+  const m = document.createElement('div');
+  m.className = 'msg msg-bot';
+  m.innerHTML = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
+  messages.appendChild(m);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadMines();
+/* file ends */
