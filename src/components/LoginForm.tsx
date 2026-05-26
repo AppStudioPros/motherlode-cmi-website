@@ -9,6 +9,7 @@ export function LoginForm() {
   const nextPath = searchParams.get("next") || "/demo";
 
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -45,22 +46,38 @@ export function LoginForm() {
       onSubmit={handleSubmit}
       className="rounded-2xl border border-gold/30 bg-white/[0.04] backdrop-blur-md p-7 md:p-8 shadow-2xl"
     >
-      <label
-        htmlFor="ml-pw"
-        className="block text-[10px] uppercase tracking-[0.18em] text-muted mb-2"
-      >
-        Demo Password
-      </label>
-      <input
-        id="ml-pw"
-        type="password"
-        autoComplete="current-password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        className="w-full rounded-lg bg-white/[0.06] border border-white/10 px-4 py-3 text-text placeholder-muted/60 focus:outline-none focus:border-gold/60 focus:bg-white/[0.10] transition-colors text-base font-medium tracking-wider"
-        placeholder="Enter password"
-      />
+      <div className="flex items-center justify-between mb-2">
+        <label
+          htmlFor="ml-pw"
+          className="block text-[10px] uppercase tracking-[0.18em] text-muted"
+        >
+          Demo Password
+        </label>
+        <span className="text-[10px] uppercase tracking-[0.18em] text-gold/80">
+          Case sensitive
+        </span>
+      </div>
+      <div className="relative">
+        <input
+          id="ml-pw"
+          type={showPassword ? "text" : "password"}
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="w-full rounded-lg bg-white/[0.06] border border-white/10 px-4 py-3 pr-20 text-text placeholder-muted/60 focus:outline-none focus:border-gold/60 focus:bg-white/[0.10] transition-colors text-base font-medium tracking-wider"
+          placeholder="Enter password"
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword((v) => !v)}
+          tabIndex={-1}
+          aria-label={showPassword ? "Hide password" : "Show password"}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-[0.15em] text-muted hover:text-gold transition-colors px-2 py-1"
+        >
+          {showPassword ? "Hide" : "Show"}
+        </button>
+      </div>
 
       {status === "error" && (
         <div className="mt-4 text-sm text-red-300 bg-red-900/30 border border-red-500/30 rounded-lg px-4 py-3">
