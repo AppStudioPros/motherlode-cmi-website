@@ -51,6 +51,7 @@ export async function POST(request: Request) {
     secure: true,
     sameSite: "lax",
     path: "/",
+    domain: ".motherlodecmi.com", // share cookie across apex + www
     maxAge: SESSION_MAX_AGE,
   });
   return response;
