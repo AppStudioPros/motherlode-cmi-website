@@ -195,7 +195,7 @@ function renderMineData(mine) {
           `).join('')}
         </div>
         <div class="scan-actions">
-          <button class="scan-btn" id="scanBtn">⚡ Scan for Opportunities</button>
+          <button class="scan-btn pulse" id="scanBtn" aria-label="Scan for opportunities. Next recommended step.">⚡ Scan for Opportunities</button>
           <button class="clear-btn" id="clearBtn">↺ Clear & Restart</button>
         </div>
       </div>
@@ -253,8 +253,13 @@ function renderMineData(mine) {
     });
   });
 
-  // Wire scan button
-  document.getElementById('scanBtn').addEventListener('click', runScan);
+  // Wire scan button. The heartbeat pulse stops on the first click, the
+  // user clearly saw it; no need to keep pulling their eye to it after that.
+  const scanBtn = document.getElementById('scanBtn');
+  scanBtn.addEventListener('click', () => {
+    scanBtn.classList.remove('pulse');
+    runScan();
+  });
 
   // Wire clear button
   document.getElementById('clearBtn').addEventListener('click', clearAll);

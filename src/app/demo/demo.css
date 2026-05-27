@@ -409,6 +409,36 @@ html, body {
 }
 .scan-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255, 181, 71, 0.3); }
 .scan-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* Heartbeat pulse, draws the eye to the primary CTA after a pin is selected.
+   Pause on hover. Removed by JS after first click. Honors reduced motion. */
+.scan-btn.pulse {
+  position: relative;
+  animation: scanBtnPulse 2.2s ease-in-out infinite;
+}
+.scan-btn.pulse:hover {
+  animation-play-state: paused;
+}
+@keyframes scanBtnPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 181, 71, 0.55),
+                0 0 0 0 rgba(255, 181, 71, 0.0);
+  }
+  60% {
+    box-shadow: 0 0 0 10px rgba(255, 181, 71, 0.0),
+                0 0 22px 4px rgba(255, 181, 71, 0.25);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 181, 71, 0.0),
+                0 0 0 0 rgba(255, 181, 71, 0.0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scan-btn.pulse {
+    animation: none;
+    box-shadow: 0 0 0 1px rgba(255, 181, 71, 0.55);
+  }
+}
 .clear-btn {
   background: transparent;
   color: var(--text-muted);
