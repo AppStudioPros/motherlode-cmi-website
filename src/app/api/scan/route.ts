@@ -127,9 +127,24 @@ export async function POST(request: Request) {
         await bravePromise; // currently used as a timing hedge
 
         // --- Result 1: For-Sale Status ---
+        const valuationChip = `<span class='valuation-chip' title='This demo uses representative listing data. Production deployments wire to live market comparable APIs.'>Demo estimate · Production pulls live market data</span>`;
+        const valuationMethodology = `
+<details class='valuation-methodology'>
+  <summary>How we calculate this</summary>
+  <div class='valuation-methodology-body'>
+    <p>The figure shown here is a <strong>representative listing value</strong> drawn from the demo dataset. The production platform replaces this with a live composite from four input streams:</p>
+    <ul>
+      <li><strong>Active comparable transactions</strong> in the same geological corridor over the trailing 24 months</li>
+      <li><strong>Current commodity-price-adjusted tailings inventory value</strong> based on per-site grade and tonnage</li>
+      <li><strong>Active claim status premium or discount</strong> from BLM LR2000 / MLRS</li>
+      <li><strong>Market depth signal</strong> from public listing platforms with confidence interval</li>
+    </ul>
+    <p class='valuation-methodology-note'>Demo figures may differ from current owner valuations by 2-4x in either direction. Production pulls real-time comps and surfaces the confidence band on every figure.</p>
+  </div>
+</details>`;
         const forSaleBody = mine.for_sale
-          ? `<span class='for-sale-yes'>● Active listing detected</span> — asking <strong>${mine.listing_price}</strong> via <strong>${mine.owner_type}</strong>. Claim status: ${mine.claim_status}. The price-to-redig-score ratio is favorable for this site at current commodity levels.`
-          : `<span class='for-sale-no'>○ No active listing found.</span> Current ownership: <strong>${mine.owner_type}</strong>. Claim status: ${mine.claim_status}.`;
+          ? `<span class='for-sale-yes'>● Active listing detected</span> — asking <strong>${mine.listing_price}</strong> ${valuationChip} via <strong>${mine.owner_type}</strong>. Claim status: ${mine.claim_status}. The price-to-redig-score ratio is favorable for this site at current commodity levels.${valuationMethodology}`
+          : `<span class='for-sale-no'>○ No active listing found.</span> Current ownership: <strong>${mine.owner_type}</strong>. Claim status: ${mine.claim_status}.${valuationMethodology}`;
         send({
           type: "result",
           block: "for_sale",
@@ -185,11 +200,12 @@ Be conservative. Federal funding officers will read this — accuracy matters mo
         const roiUser = renderMineForPrompt(mine, "roi");
 
         const roiText = await claudeSynthesize(roiSystem, roiUser, 400);
+        const roiChip = `<div class='valuation-chip-row'><span class='valuation-chip' title='This demo uses representative inputs. Production deployments wire to live commodity, ownership, and market-comp APIs.'>Demo estimate · Production pulls live market data</span></div>`;
         send({
           type: "result",
           block: "roi",
           title: "Estimated ROI & Timeline",
-          body: roiText.replace(/\n/g, "<br/>"),
+          body: roiText.replace(/\n/g, "<br/>") + roiChip,
         });
 
         await sleep(300);

@@ -702,6 +702,118 @@ html, body {
 .for-sale-yes { color: var(--green); font-weight: 700; }
 .for-sale-no { color: var(--text-muted); }
 
+/* Valuation transparency chip. Small inline disclaimer next to $ figures
+   so demo viewers know it's representative and production uses live data. */
+.valuation-chip {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid rgba(255, 181, 71, 0.35);
+  border-radius: 3px;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: help;
+}
+.valuation-chip-row {
+  margin-top: 8px;
+  text-align: right;
+}
+.valuation-chip-row .valuation-chip {
+  margin-left: 0;
+}
+
+/* Valuation methodology, expandable 'How we calculate this' panel. */
+.valuation-methodology {
+  margin-top: 12px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.valuation-methodology summary {
+  list-style: none;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+.valuation-methodology summary::-webkit-details-marker { display: none; }
+.valuation-methodology summary::before {
+  content: "+";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--accent);
+  transition: transform 0.2s;
+}
+.valuation-methodology[open] summary::before {
+  content: "−";
+}
+.valuation-methodology summary:hover {
+  background: rgba(255, 181, 71, 0.05);
+}
+.valuation-methodology-body {
+  padding: 10px 14px 14px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+.valuation-methodology-body p {
+  margin: 0 0 8px 0;
+}
+.valuation-methodology-body p:last-child { margin-bottom: 0; }
+.valuation-methodology-body ul {
+  margin: 6px 0 10px 0;
+  padding-left: 18px;
+}
+.valuation-methodology-body li {
+  margin-bottom: 4px;
+}
+.valuation-methodology-body strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.valuation-methodology-note {
+  font-style: italic;
+  font-size: 11px;
+  color: var(--text-subtle);
+  padding: 8px 10px;
+  background: rgba(255, 181, 71, 0.04);
+  border-left: 2px solid var(--accent);
+  border-radius: 2px;
+}
+@media (max-width: 640px) {
+  .valuation-chip {
+    margin-left: 4px;
+    margin-top: 4px;
+    padding: 2px 6px;
+    font-size: 9px;
+  }
+  .valuation-methodology summary { padding: 8px 10px; font-size: 10px; }
+  .valuation-methodology-body { padding: 10px 10px 12px; font-size: 11.5px; }
+}
+
 /* ACI Bot chat */
 .chat-block {
   background: linear-gradient(180deg, var(--bg-panel) 0%, rgba(167, 139, 250, 0.04) 100%);
