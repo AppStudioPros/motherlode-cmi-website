@@ -83,6 +83,15 @@ export function DemoClient({ demoLogic }: { demoLogic: string }) {
           </div>
         </div>
 
+        {/* DEMO DISCLAIMER */}
+        <div className="demo-disclaimer" role="note" aria-label="Demonstration disclaimer">
+          <span className="demo-disclaimer-label">Demonstration Notice</span>
+          <p>
+            This is a low-level demonstration. The data shown is representative, not production-grade.
+            Final platform capabilities exceed what&apos;s visible here.
+          </p>
+        </div>
+
         {/* MAP BLOCK */}
         <div className="map-block">
           <div className="map-block-header">

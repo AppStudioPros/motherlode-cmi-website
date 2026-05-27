@@ -151,9 +151,46 @@ html, body {
   gap: 10px;
 }
 .map-block-sub {
-  color: var(--text-muted);
-  font-size: 11px;
-  font-weight: 400;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  display: block;
+  margin-top: 6px;
+}
+
+/* Demonstration disclaimer banner, between hero and map */
+.demo-disclaimer {
+  margin: 0 0 24px;
+  padding: 18px 24px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  text-align: center;
+}
+.demo-disclaimer-label {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.demo-disclaimer p {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 640px) {
+  .demo-disclaimer { padding: 14px 16px; }
+  .demo-disclaimer p { font-size: 14px; }
 }
 .map-toggle-btn {
   background: transparent;
