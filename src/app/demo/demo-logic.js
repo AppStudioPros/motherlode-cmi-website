@@ -238,9 +238,10 @@ function renderMineData(mine) {
 
     <!-- ACI Bot chat -->
     <div class="chat-block" id="chatBlock">
-      <div class="chat-header">
-        <span class="chat-pulse"></span>
-        ACI Bot · Ask About This Site
+      <div class="chat-header chat-header-spotlight">
+        <span class="chat-pulse chat-pulse-live" aria-hidden="true"></span>
+        <span class="chat-live-chip" aria-label="Live">LIVE</span>
+        <span class="chat-header-text">ACI Bot · Try it now! Ask about this site</span>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
       <div class="chat-input-row">
@@ -407,6 +408,25 @@ function handleScanEvent(evt) {
     chat.classList.add('show');
     setTimeout(() => chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 400);
     addBotMsg(`I have the data on **${activeMine.name}** loaded. What do you want to know about this site?`);
+
+    // First-appearance input glow, draws the eye to where to actually type.
+    // Fades in after the scroll lands, glows for 3s, then auto-removes.
+    const input = document.getElementById('chatInput');
+    if (input) {
+      setTimeout(() => {
+        input.classList.add('chat-input-spotlight');
+        // Stop the glow the moment the user starts interacting
+        const stopGlow = () => {
+          input.classList.remove('chat-input-spotlight');
+          input.removeEventListener('focus', stopGlow);
+          input.removeEventListener('input', stopGlow);
+        };
+        input.addEventListener('focus', stopGlow, { once: true });
+        input.addEventListener('input', stopGlow, { once: true });
+        // Auto-remove after 3.5s if they don't interact
+        setTimeout(stopGlow, 3500);
+      }, 800);
+    }
   }
 }
 

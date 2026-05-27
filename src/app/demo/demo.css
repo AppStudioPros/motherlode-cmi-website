@@ -844,6 +844,99 @@ html, body {
   animation: pulse 2s infinite;
 }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* Spotlight chat header, centered with LIVE chip + green pulse.
+   The single biggest under-marketed feature in the demo, this draws the eye. */
+.chat-header-spotlight {
+  justify-content: center;
+  font-size: 14px;
+  letter-spacing: 1.2px;
+  padding: 4px 12px 14px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.chat-header-text {
+  color: var(--purple);
+}
+.chat-pulse-live {
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green), 0 0 0 0 rgba(34, 197, 94, 0.55);
+  animation: chatPulseLive 1.6s ease-in-out infinite;
+}
+@keyframes chatPulseLive {
+  0% {
+    box-shadow: 0 0 10px var(--green),
+                0 0 0 0 rgba(34, 197, 94, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 12px var(--green),
+                0 0 0 8px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 10px var(--green),
+                0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+.chat-live-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  background: var(--accent);
+  color: #0a0e1a;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 0 rgba(255, 181, 71, 0.6);
+  animation: chatLiveChip 1.6s ease-in-out infinite;
+}
+@keyframes chatLiveChip {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 181, 71, 0.6);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(255, 181, 71, 0);
+    transform: scale(1.04);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-pulse-live,
+  .chat-live-chip {
+    animation: none;
+  }
+}
+@media (max-width: 640px) {
+  .chat-header-spotlight {
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  .chat-live-chip { font-size: 9px; padding: 2px 6px; letter-spacing: 1.2px; }
+}
+
+/* First-appearance input-box glow, draws the eye to where to type.
+   Added by JS when the chat block appears; removed on focus/input/3.5s timeout. */
+.chat-input-spotlight {
+  animation: chatInputSpotlight 1.4s ease-in-out infinite;
+  border-color: var(--accent) !important;
+}
+@keyframes chatInputSpotlight {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 181, 71, 0.5),
+                0 0 14px 2px rgba(255, 181, 71, 0.18);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(255, 181, 71, 0),
+                0 0 22px 4px rgba(255, 181, 71, 0.32);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-input-spotlight {
+    animation: none;
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+}
 .chat-messages {
   max-height: 280px;
   overflow-y: auto;
