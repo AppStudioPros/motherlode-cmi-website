@@ -229,6 +229,13 @@ function renderMineData(mine) {
       <div class="result-body" id="roiBody"></div>
     </div>
 
+    <!-- Working indicator, shows while AI is generating result blocks. Hides when chat appears. -->
+    <div class="working-indicator" id="workingIndicator" aria-live="polite">
+      <span class="working-star" aria-hidden="true">✦</span>
+      <span class="working-text" id="workingText">Working on data output</span>
+      <span class="working-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+    </div>
+
     <!-- ACI Bot chat -->
     <div class="chat-block" id="chatBlock">
       <div class="chat-header">
@@ -309,6 +316,7 @@ async function runScan() {
   ['forSaleBlock', 'closeReasonBlock', 'opportunityBlock', 'roiBlock', 'chatBlock'].forEach(id => {
     document.getElementById(id).classList.remove('show');
   });
+  hideWorkingIndicator();
 
   const btn = document.getElementById('scanBtn');
   btn.disabled = true;
@@ -392,12 +400,55 @@ function handleScanEvent(evt) {
     }
   } else if (evt.type === 'result') {
     showResult(evt.block, evt.body);
+    showWorkingIndicator();
   } else if (evt.type === 'done') {
+    hideWorkingIndicator();
     const chat = document.getElementById('chatBlock');
     chat.classList.add('show');
     setTimeout(() => chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 400);
     addBotMsg(`I have the data on **${activeMine.name}** loaded. What do you want to know about this site?`);
   }
+}
+
+// 'Working on data output' indicator, with cycling copy so users feel motion
+// while the AI streams the rest of the blocks. Auto-hides on the 'done' event.
+let workingCopyTimer = null;
+const workingCopyPhases = [
+  'Working on data output',
+  'Cross-referencing scoring layers',
+  'Compiling opportunity assessment',
+  'Finalizing site report',
+];
+function showWorkingIndicator() {
+  const el = document.getElementById('workingIndicator');
+  if (!el || el.classList.contains('show')) return;
+  el.classList.add('show');
+  // Start copy cycling on a 4s loop
+  let i = 0;
+  const textEl = document.getElementById('workingText');
+  if (workingCopyTimer) clearInterval(workingCopyTimer);
+  workingCopyTimer = setInterval(() => {
+    i = (i + 1) % workingCopyPhases.length;
+    if (textEl) {
+      textEl.style.opacity = '0';
+      setTimeout(() => {
+        textEl.textContent = workingCopyPhases[i];
+        textEl.style.opacity = '1';
+      }, 220);
+    }
+  }, 4000);
+}
+function hideWorkingIndicator() {
+  const el = document.getElementById('workingIndicator');
+  if (!el) return;
+  el.classList.remove('show');
+  if (workingCopyTimer) {
+    clearInterval(workingCopyTimer);
+    workingCopyTimer = null;
+  }
+  // Reset text for next scan
+  const textEl = document.getElementById('workingText');
+  if (textEl) textEl.textContent = workingCopyPhases[0];
 }
 
 function showResult(blockKey, body) {
