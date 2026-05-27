@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/Reveal";
+import { MobileNav } from "@/components/MobileNav";
 
 export default function Home() {
   return (
@@ -18,20 +19,21 @@ export default function Home() {
             <a href="#team" className="text-muted hover:text-text transition-colors">Team</a>
             <a href="#contact" className="px-4 py-1.5 rounded border border-gold/40 text-gold hover:bg-gold/10 transition-colors">Contact</a>
           </div>
+          <MobileNav />
         </nav>
       </header>
 
       {/* Hero */}
       <section className="relative overflow-hidden blueprint-bg particles">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent"></div>
-        <div className="relative max-w-5xl mx-auto px-6 pt-24 pb-20 md:pt-32 md:pb-28 text-center">
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-8">
+        <div className="relative max-w-5xl mx-auto px-5 sm:px-6 pt-16 pb-16 sm:pt-24 sm:pb-20 md:pt-32 md:pb-28 text-center">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6 md:mb-8">
             MotherLode CMI
           </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-8">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6 md:mb-8">
             Per-site critical-minerals intelligence across the entire mining-active United States.
           </h1>
-          <p className="text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed">
             MotherLode CMI integrates AI with comprehensive historical mining records, federal and state databases, and modern geological data to predict per-site critical-minerals content at fidelity not previously available, at speeds measured in hours instead of months.
           </p>
         </div>
@@ -39,43 +41,43 @@ export default function Home() {
 
       {/* Quantified Savings strip */}
       <section className="border-y border-gold/20 bg-gradient-to-r from-surface/40 via-surface2/40 to-surface/40 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 py-10 md:py-12">
-          <div className="grid md:grid-cols-3 gap-8 md:gap-12 text-center">
-            <div>
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-8 sm:py-10 md:py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 text-center">
+            <div className="pb-6 md:pb-0 border-b border-white/10 md:border-b-0">
               <div className="text-3xl md:text-4xl font-bold text-gold mb-2">6 to 8 months</div>
-              <div className="text-sm text-muted">Per-site analysis time using legacy methods</div>
+              <div className="text-sm md:text-sm text-muted">Per-site analysis time using legacy methods</div>
             </div>
-            <div className="md:border-x md:border-white/10">
+            <div className="pb-6 md:pb-0 border-b border-white/10 md:border-b-0 md:border-x md:border-white/10">
               <div className="text-3xl md:text-4xl font-bold text-gold mb-2">Hours</div>
-              <div className="text-sm text-muted">Per-site analysis time with MotherLode CMI</div>
+              <div className="text-sm md:text-sm text-muted">Per-site analysis time with MotherLode CMI</div>
             </div>
             <div>
               <div className="text-3xl md:text-4xl font-bold text-gold mb-2">100%</div>
-              <div className="text-sm text-muted">Of mining-active United States covered</div>
+              <div className="text-sm md:text-sm text-muted">Of mining-active United States covered</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* The Gap */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
+      <section className="py-14 sm:py-20 md:py-28">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
             Resolves the per-site data gap that holds back domestic critical-minerals development.
           </h2>
-          <p className="text-lg text-light leading-relaxed mb-6 max-w-4xl">
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-5 sm:mb-6 max-w-4xl">
             Historical mining operations from 1850 through the late twentieth century assayed only the primary commodity: gold, copper, silver, lead. Critical minerals such as rare earth elements, cobalt, lithium, gallium, germanium, antimony, and tellurium were typically discarded with the tailings or never measured at all. Modern surveys reach roughly five percent of the country. The data exists. It has never been integrated.
           </p>
-          <p className="text-lg text-light leading-relaxed max-w-4xl">
+          <p className="text-base sm:text-lg text-light leading-relaxed max-w-4xl">
             The platform combines AI-driven extraction of legacy mining records, multi-spectral satellite analysis, era-specific recovery efficiency modeling, and cross-site pattern matching to produce per-site bycatch predictions with confidence intervals, directly usable by program managers, state geological surveys, and operators.
           </p>
         </div>
       </section>
 
       {/* Five Layers */}
-      <section id="platform" className="py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12 text-center">
+      <section id="platform" className="py-14 sm:py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-8 sm:mb-12 text-center">
             Five integrated layers that turn historical mining data into actionable intelligence.
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -108,9 +110,9 @@ export default function Home() {
       </section>
 
       {/* Differentiators */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12 text-center">
+      <section className="py-14 sm:py-20 md:py-28">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-8 sm:mb-12 text-center">
             Speed, coverage, technical depth, patent protection, and a system that compounds with use.
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -139,15 +141,15 @@ export default function Home() {
       </section>
 
       {/* The Data Flywheel */}
-      <section id="flywheel" className="py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
-        <div className="max-w-5xl mx-auto px-6">
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6">
+      <section id="flywheel" className="py-14 sm:py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-5 sm:mb-6">
             The Data Flywheel
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
             A verification network that compounds the moat with every deployment.
           </h2>
-          <p className="text-lg text-light leading-relaxed mb-10 max-w-4xl">
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-8 sm:mb-10 max-w-4xl">
             Every operator who deploys MotherLode CMI on a site generates ground-truth data: actual assay results, observed recovery efficiencies, encountered contamination, real-world economics. Verified field outcomes feed back into the model, tightening confidence intervals per category, refining era-specific recovery functions, and improving cross-cluster signature matching.
           </p>
           <div className="grid md:grid-cols-3 gap-6">
@@ -167,43 +169,43 @@ export default function Home() {
               body="The next operator evaluating a comparable site receives sharper predictions, better economics, and a stronger grant-ready report than the operator before them."
             /></Reveal>
           </div>
-          <p className="text-base text-muted leading-relaxed mt-10 max-w-4xl">
+          <p className="text-sm sm:text-base text-muted leading-relaxed mt-8 sm:mt-10 max-w-4xl">
             This is the data nobody else has. Federal databases hold the historical records. Modern surveys hold the contemporary geology. Operators hold the ground-truth. MotherLode CMI is the first system to integrate all three with a feedback loop that compounds across deployments.
           </p>
         </div>
       </section>
 
       {/* Beyond Known Sites */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-5xl mx-auto px-6">
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6">
+      <section className="py-14 sm:py-20 md:py-28">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-5 sm:mb-6">
             Beyond Known Sites
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
             Cross-cluster signature matching identifies sites no one has discovered yet.
           </h2>
-          <p className="text-lg text-light leading-relaxed mb-6 max-w-4xl">
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-5 sm:mb-6 max-w-4xl">
             The platform extracts geological, geochemical, and structural signatures from historically productive mining clusters. It then scans the broader mining-active landscape for areas that share those signatures but were never developed, never recorded, or never assayed for critical minerals.
           </p>
-          <p className="text-lg text-light leading-relaxed mb-6 max-w-4xl">
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-5 sm:mb-6 max-w-4xl">
             The result is a new class of opportunity: high-potential sites that are absent from federal databases, absent from state inventories, and absent from every commercial mining intelligence product on the market. They exist in the data, just not in anyone's index.
           </p>
-          <p className="text-base text-muted leading-relaxed max-w-4xl">
+          <p className="text-sm sm:text-base text-muted leading-relaxed max-w-4xl">
             This capability is patent pending and is unique to MotherLode CMI.
           </p>
         </div>
       </section>
 
       {/* Team & Advisors */}
-      <section id="team" className="py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12 text-center">
+      <section id="team" className="py-14 sm:py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-8 sm:mb-12 text-center">
             Domain credibility paired with engineering execution.
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
             {/* Corey */}
             <Reveal delay={0}>
-            <article className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 hover:bg-white/[0.06] transition-colors">
+            <article className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-8 hover:bg-white/[0.06] transition-colors">
               <h3 className="text-2xl font-bold mb-1">Larry Corey Strange</h3>
               <div className="text-gold font-semibold text-sm mb-1">Founder and Chief Technology Officer</div>
               <div className="text-muted text-xs uppercase tracking-wider mb-4">Lucid Tech LLC</div>
@@ -240,7 +242,7 @@ export default function Home() {
 
             {/* Douglas */}
             <Reveal delay={150}>
-            <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 hover:bg-white/[0.05] transition-colors">
+            <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 hover:bg-white/[0.05] transition-colors">
               <h3 className="text-2xl font-bold mb-1">Douglas B. Chrisey, Ph.D.</h3>
               <div className="text-gold font-semibold text-sm mb-1">Jung Chair of Materials Engineering, Tulane University</div>
               <div className="text-muted text-xs mb-4">Co-owner, MotherLode CMI</div>
@@ -268,29 +270,29 @@ export default function Home() {
       </section>
 
       {/* Audience */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
+      <section className="py-14 sm:py-20 md:py-28">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
             Built for the institutions advancing domestic critical-minerals supply.
           </h2>
-          <p className="text-lg text-light leading-relaxed max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-light leading-relaxed max-w-3xl mx-auto">
             We are actively engaging program managers, state geological surveys, university research partners, and operators advancing domestic critical-minerals supply.
           </p>
         </div>
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-t border-white/5">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
+      <section id="contact" className="py-14 sm:py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-t border-white/5">
+        <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
             If your work touches the per-site critical-minerals gap, we welcome a discussion.
           </h2>
-          <p className="text-lg text-light leading-relaxed mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-8 sm:mb-10 max-w-2xl mx-auto">
             For program inquiries, partnership conversations, and access requests, reach out directly.
           </p>
           <a
             href="mailto:info@webdesignpros365.com"
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-gradient-to-r from-gold to-copper text-ink font-semibold hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 rounded-lg bg-gradient-to-r from-gold to-copper text-ink font-semibold hover:opacity-90 transition-opacity break-all"
           >
             info@webdesignpros365.com
           </a>
@@ -321,28 +323,28 @@ export default function Home() {
 
 function FeatureCard({ title, body }: { title: string; body: string }) {
   return (
-    <article className="h-full rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-7 hover:bg-white/[0.08] hover:border-gold/30 hover:-translate-y-1 transition-all duration-300">
+    <article className="h-full rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 sm:p-7 hover:bg-white/[0.08] hover:border-gold/30 hover:-translate-y-1 transition-all duration-300">
       <h3 className="text-lg font-bold mb-3 text-gold">{title}</h3>
-      <p className="text-sm text-light leading-relaxed">{body}</p>
+      <p className="text-[15px] sm:text-sm text-light leading-relaxed">{body}</p>
     </article>
   );
 }
 
 function SmallCard({ title, body }: { title: string; body: string }) {
   return (
-    <article className="h-full rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-6 hover:bg-white/[0.07] hover:border-gold/30 hover:-translate-y-1 transition-all duration-300">
+    <article className="h-full rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-5 sm:p-6 hover:bg-white/[0.07] hover:border-gold/30 hover:-translate-y-1 transition-all duration-300">
       <h3 className="text-base font-bold mb-2 text-gold">{title}</h3>
-      <p className="text-sm text-light leading-relaxed">{body}</p>
+      <p className="text-[15px] sm:text-sm text-light leading-relaxed">{body}</p>
     </article>
   );
 }
 
 function FlywheelStep({ num, title, body }: { num: string; title: string; body: string }) {
   return (
-    <article className="h-full rounded-2xl border border-gold/20 bg-gradient-to-b from-white/[0.06] to-transparent backdrop-blur-sm p-7 hover:border-gold/40 hover:-translate-y-1 transition-all duration-300">
+    <article className="h-full rounded-2xl border border-gold/20 bg-gradient-to-b from-white/[0.06] to-transparent backdrop-blur-sm p-5 sm:p-7 hover:border-gold/40 hover:-translate-y-1 transition-all duration-300">
       <div className="text-3xl font-bold text-gold mb-3">{num}</div>
       <h3 className="text-lg font-bold mb-3">{title}</h3>
-      <p className="text-sm text-light leading-relaxed">{body}</p>
+      <p className="text-[15px] sm:text-sm text-light leading-relaxed">{body}</p>
     </article>
   );
 }
