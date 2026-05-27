@@ -8,15 +8,17 @@ const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || "";
 const BRAVE_KEY = process.env.BRAVE_API_KEY || "";
 const CLAUDE_PRIMARY = "claude-sonnet-4-20250514";
 
+// Per-layer scan durations [min_sec, max_sec, completion_summary]
+// Slowed 50% (2x of original) for cinematic realism, per Corey 2026-05-27.
 const LAYER_TIMING: Record<string, [number, number, string]> = {
-  mrds: [1.0, 1.6, "300K records cross-referenced"],
-  blm: [1.2, 1.8, "MLRS active-claim lookup complete"],
-  ussbulletin: [2.0, 2.8, "OCR + extraction on legacy bulletins"],
-  sentinel: [1.6, 2.2, "multi-spectral signature confirmed"],
-  statesurvey: [1.0, 1.5, "state survey records integrated"],
-  marketplace: [1.8, 2.4, "live listings cross-referenced"],
-  newspapers: [1.4, 2.0, "historical news archives indexed"],
-  superfund: [0.9, 1.3, "EPA registry clear"],
+  mrds: [2.0, 3.2, "300K records cross-referenced"],
+  blm: [2.4, 3.6, "MLRS active-claim lookup complete"],
+  ussbulletin: [4.0, 5.6, "OCR + extraction on legacy bulletins"],
+  sentinel: [3.2, 4.4, "multi-spectral signature confirmed"],
+  statesurvey: [2.0, 3.0, "state survey records integrated"],
+  marketplace: [3.6, 4.8, "live listings cross-referenced"],
+  newspapers: [2.8, 4.0, "historical news archives indexed"],
+  superfund: [1.8, 2.6, "EPA registry clear"],
 };
 
 function sleep(ms: number) {
@@ -114,16 +116,39 @@ export async function POST(request: Request) {
         const braveQuery = `"${mine.name}" ${mine.town} mining gold tailings historic`;
         const bravePromise = wantBrave ? braveSearch(braveQuery) : Promise.resolve(null);
 
-        // Cinematic per-layer flow
-        for (const layerKey of layers) {
-          const timing = LAYER_TIMING[layerKey] || [1.0, 1.5, "ok"];
+        // Cinematic per-layer flow with live progress ticker.
+        // 'progress' events stream the percentage smoothly between layer ticks
+        // so the counter on the client UI ticks continuously, not jumpily.
+        const totalLayers = layers.length;
+        const layerPct = 100 / totalLayers; // each layer contributes this much
+        send({ type: "progress", value: 0 });
+
+        for (let i = 0; i < layers.length; i++) {
+          const layerKey = layers[i];
+          const timing = LAYER_TIMING[layerKey] || [2.0, 3.0, "ok"];
           send({ type: "layer_start", layer: layerKey });
-          const delay =
+          const baseDelay =
             timing[0] * 1000 + Math.random() * (timing[1] - timing[0]) * 1000;
-          await sleep(delay);
+
+          // Tick progress mid-layer so the counter is continuous.
+          // Split each layer into ~8 mini-ticks. Don't tick all the way up,
+          // leave the final jump for layer_done.
+          const ticks = 8;
+          const tickDelay = baseDelay / ticks;
+          const startPct = i * layerPct;
+          for (let t = 1; t <= ticks; t++) {
+            await sleep(tickDelay);
+            // Each tick brings progress 90% of the way through this layer,
+            // the last 10% lands on layer_done so the user sees it click into place.
+            const tickPct = startPct + (layerPct * 0.9 * t) / ticks;
+            send({ type: "progress", value: Math.round(tickPct * 10) / 10 });
+          }
+
           send({ type: "layer_done", layer: layerKey, summary: timing[2] });
+          send({ type: "progress", value: Math.round((i + 1) * layerPct * 10) / 10 });
         }
 
+        send({ type: "progress", value: 100 });
         await bravePromise; // currently used as a timing hedge
 
         // --- Result 1: For-Sale Status ---

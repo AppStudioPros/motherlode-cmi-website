@@ -204,7 +204,14 @@ function renderMineData(mine) {
 
     <!-- Scan progress -->
     <div class="scan-progress" id="scanProgress">
-      <div class="scan-progress-title">Scanning Integrated Data Layers</div>
+      <div class="scan-progress-head">
+        <div class="scan-progress-title">Scanning Integrated Data Layers</div>
+        <div class="scan-progress-meter" id="scanProgressMeter" aria-live="polite">
+          <span class="scan-progress-percent" id="scanProgressPercent">0%</span>
+          <span class="scan-progress-label">Complete</span>
+        </div>
+      </div>
+      <div class="scan-progress-bar"><div class="scan-progress-bar-fill" id="scanProgressBarFill"></div></div>
       <div id="scanLines"></div>
     </div>
 
@@ -318,6 +325,10 @@ async function runScan() {
     document.getElementById(id).classList.remove('show');
   });
   hideWorkingIndicator();
+  // Reset progress meter to 0% for a new scan
+  updateScanProgress(0);
+  const _meter = document.getElementById('scanProgressMeter');
+  if (_meter) _meter.classList.remove('complete');
 
   const btn = document.getElementById('scanBtn');
   btn.disabled = true;
@@ -399,6 +410,8 @@ function handleScanEvent(evt) {
       const txt = row.querySelector('.scan-line-text').textContent.split(' — ')[0];
       row.innerHTML = `<span class="scan-check">✓</span><span class="scan-line-text">${txt} — ${evt.summary}</span>`;
     }
+  } else if (evt.type === 'progress') {
+    updateScanProgress(evt.value);
   } else if (evt.type === 'result') {
     showResult(evt.block, evt.body);
     showWorkingIndicator();
@@ -427,6 +440,22 @@ function handleScanEvent(evt) {
         setTimeout(stopGlow, 3500);
       }, 800);
     }
+  }
+}
+
+// Live scan-progress counter, 0-100% with a smoothly ticking display.
+// Server emits 'progress' events ~8x per layer, this updates the visible counter
+// and the underlying progress bar fill. Animation handled by CSS transition.
+function updateScanProgress(value) {
+  const pct = Math.max(0, Math.min(100, Number(value) || 0));
+  const display = Math.round(pct);
+  const percentEl = document.getElementById('scanProgressPercent');
+  const fillEl = document.getElementById('scanProgressBarFill');
+  if (percentEl) percentEl.textContent = display + '%';
+  if (fillEl) fillEl.style.width = pct + '%';
+  if (pct >= 100) {
+    const meter = document.getElementById('scanProgressMeter');
+    if (meter) meter.classList.add('complete');
   }
 }
 
