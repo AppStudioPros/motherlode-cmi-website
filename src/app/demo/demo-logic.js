@@ -194,7 +194,8 @@ function renderMineData(mine) {
             </label>
           `).join('')}
         </div>
-        <div class="scan-actions">
+        <div class="scan-actions" id="scanActions">
+          <div class="scan-next-hint" id="scanNextHint" aria-hidden="true">Next: scan this site</div>
           <button class="scan-btn pulse" id="scanBtn" aria-label="Scan for opportunities. Next recommended step.">⚡ Scan for Opportunities</button>
           <button class="clear-btn" id="clearBtn">↺ Clear & Restart</button>
         </div>
@@ -253,11 +254,14 @@ function renderMineData(mine) {
     });
   });
 
-  // Wire scan button. The heartbeat pulse stops on the first click, the
-  // user clearly saw it; no need to keep pulling their eye to it after that.
+  // Wire scan button. The heartbeat pulse + shimmer + 'Next:' hint all stop
+  // on the first click; user got the message, no need to keep pulling their
+  // eye to it after that.
   const scanBtn = document.getElementById('scanBtn');
+  const scanActions = document.getElementById('scanActions');
   scanBtn.addEventListener('click', () => {
     scanBtn.classList.remove('pulse');
+    if (scanActions) scanActions.classList.add('cta-fired');
     runScan();
   });
 

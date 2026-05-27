@@ -393,6 +393,47 @@ html, body {
   flex-direction: column;
   gap: 8px;
   min-width: 220px;
+  position: relative;
+}
+
+/* 'Next:' hint above the pulsing CTA, fades in and gently breathes.
+   Sits in the same column-flex container so it stacks above the scan button. */
+.scan-next-hint {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 2px;
+  opacity: 0;
+  animation: scanNextHintIn 0.5s ease-out 0.3s forwards,
+             scanNextHintBreathe 2.2s ease-in-out 0.8s infinite;
+  pointer-events: none;
+}
+.scan-next-hint::before {
+  content: "→ ";
+  color: var(--accent);
+  margin-right: 4px;
+}
+.scan-actions.cta-fired .scan-next-hint {
+  animation: none;
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+}
+@keyframes scanNextHintIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 0.95; transform: translateY(0); }
+}
+@keyframes scanNextHintBreathe {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 0.95; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scan-next-hint {
+    animation: none;
+    opacity: 0.85;
+  }
 }
 .scan-btn {
   background: linear-gradient(135deg, var(--accent), var(--gold));
@@ -414,9 +455,13 @@ html, body {
    Pause on hover. Removed by JS after first click. Honors reduced motion. */
 .scan-btn.pulse {
   position: relative;
+  overflow: hidden;
   animation: scanBtnPulse 2.2s ease-in-out infinite;
 }
 .scan-btn.pulse:hover {
+  animation-play-state: paused;
+}
+.scan-btn.pulse:hover::after {
   animation-play-state: paused;
 }
 @keyframes scanBtnPulse {
@@ -433,10 +478,42 @@ html, body {
                 0 0 0 0 rgba(255, 181, 71, 0.0);
   }
 }
+
+/* Scanning shimmer sweep across the button face, themed to match the product.
+   A diagonal band of light slides left to right every ~2.6s. */
+.scan-btn.pulse::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 30%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 70%,
+    transparent 100%
+  );
+  animation: scanBtnShimmer 2.6s ease-in-out 0.5s infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+@keyframes scanBtnShimmer {
+  0%   { left: -60%; }
+  60%  { left: 110%; }
+  100% { left: 110%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scan-btn.pulse {
     animation: none;
     box-shadow: 0 0 0 1px rgba(255, 181, 71, 0.55);
+  }
+  .scan-btn.pulse::after {
+    animation: none;
+    display: none;
   }
 }
 .clear-btn {
