@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/Reveal";
-import ScottsdaleImpactCalculator from "@/components/ScottsdaleImpactCalculator";
 
 export const metadata: Metadata = {
   title: "Provenance Sourcing Network · Built with Scottsdale Mint",
@@ -28,7 +27,7 @@ export default function ScottsdalePartnershipPage() {
             href="#engagement"
             className="px-4 py-1.5 rounded border border-gold/40 text-gold hover:bg-gold/10 transition-colors text-sm"
           >
-            The Ask
+            Engagement Structures
           </a>
         </nav>
       </header>
@@ -40,7 +39,7 @@ export default function ScottsdalePartnershipPage() {
           <Reveal>
             <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-              Private Working Document
+              Built with Scottsdale Mint &nbsp;·&nbsp; Proposal
             </div>
           </Reveal>
 
@@ -359,43 +358,15 @@ export default function ScottsdalePartnershipPage() {
         </div>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━ SECTION 6 · IMPACT CALCULATOR ━━━━━━━━━━━━━━━━━ */}
-      <section className="border-t border-white/5 bg-surface/30">
-        <div className="max-w-5xl mx-auto px-5 sm:px-6 py-16 md:py-24">
-          <Reveal>
-            <div className="text-xs uppercase tracking-[0.2em] text-gold font-semibold mb-3">
-              The Imploded Impact
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-3">
-              What this means for <span className="text-gold">Scottsdale specifically.</span>
-            </h2>
-            <p className="text-lg text-light leading-relaxed mb-10 max-w-3xl">
-              The moat does not flatten. It compounds. The competitive gap
-              gets wider with every transaction, not narrower. Run the
-              numbers below.
-            </p>
-          </Reveal>
-
-          <Reveal delay={100}>
-            <ScottsdaleImpactCalculator />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ━━━━━━━━━━━━━━━━━ SECTION 7 · WHY BUY ━━━━━━━━━━━━━━━━━ */}
+      {/* ━━━━━━━━━━━━━━━━━ SECTION 6 · OPPORTUNITIES ON CURRENT POSITIONS ━━━━━━━━━━━━━━━━━ */}
       <section className="border-t border-white/5">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 py-16 md:py-24">
           <Reveal>
-            <div className="text-xs uppercase tracking-[0.2em] text-gold font-semibold mb-3">
-              Why This Lands For Scottsdale
-            </div>
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-              Built for the <span className="text-gold">decisions you have already made.</span>
+              Opportunities to <span className="text-gold">compound</span> the positions Scottsdale already holds.
             </h2>
             <p className="text-lg text-light leading-relaxed mb-10 max-w-3xl">
-              The Provenance Sourcing Network is not a bet on something new for
-              Scottsdale Mint. It is operational infrastructure for commitments
-              Scottsdale has already publicly announced.
+              AI compounding processes applied to live Scottsdale commitments. Not a new bet. New leverage on positions already in motion.
             </p>
           </Reveal>
 
@@ -440,70 +411,7 @@ export default function ScottsdalePartnershipPage() {
         </div>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━ SECTION 8 · WHY NOT TO BUY ━━━━━━━━━━━━━━━━━ */}
-      <section className="border-t border-white/5 bg-surface/30">
-        <div className="max-w-5xl mx-auto px-5 sm:px-6 py-16 md:py-24">
-          <Reveal>
-            <div className="text-xs uppercase tracking-[0.2em] text-copper font-semibold mb-3">
-              The Honest Section
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-              When this is the <span className="text-copper">wrong product.</span>
-            </h2>
-            <p className="text-lg text-light leading-relaxed mb-10 max-w-3xl">
-              We are not the right answer for every operating posture. Reading
-              the cases below before reading the engagement structures protects
-              the integrity of the commitment we are both being asked to make.
-            </p>
-          </Reveal>
-
-          <div className="grid md:grid-cols-2 gap-5">
-            {[
-              {
-                title: "If a passive data subscription is the goal",
-                body: "Wrong product. A subscription operationalizes only the discovery half of the flywheel. We can offer that, but the patent moat and the structural advantage do not transfer.",
-              },
-              {
-                title: "If sovereign-tier identity isolation is not a priority",
-                body: "Overbuilt. The network is engineered for buyers who cannot publicly announce intent. If Scottsdale's program does not require identity-protected accumulation, simpler structures exist at lower cost.",
-              },
-              {
-                title: "If refining capacity cannot absorb the deal flow",
-                body: "Premature. The flywheel produces real deal velocity within months. If Casper capacity is not online and absorbing supply, the upstream identification compounds faster than the downstream throughput. Sequence the Phase 1 build to Casper readiness.",
-              },
-              {
-                title: "If Scottsdale does not want to be the public-facing brand",
-                body: "Different structure. The network can run with Scottsdale as a silent buyer-tier participant rather than as the named co-brand. Patent moat still applies. Marketing leverage and brand-narrative advantages do not transfer in the same way.",
-              },
-            ].map((item, i) => (
-              <Reveal key={item.title} delay={80 + i * 40}>
-                <div className="rounded-xl border border-copper/25 bg-copper/5 p-5 md:p-6 h-full">
-                  <div className="flex gap-3 mb-2">
-                    <span className="text-copper mt-1.5 text-xs">✕</span>
-                    <h3 className="text-base md:text-lg font-bold text-text leading-snug">{item.title}</h3>
-                  </div>
-                  <p className="text-sm text-muted leading-relaxed pl-5">{item.body}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal delay={300}>
-            <div className="mt-10 rounded-xl border-l-4 border-gold bg-ink/40 p-6">
-              <p className="text-base text-light leading-relaxed">
-                <span className="text-gold font-semibold">The point of this section.</span>{" "}
-                Listing the cases where the Provenance Sourcing Network is the
-                wrong product is what makes the cases where it is the right
-                product credible. If any of these apply to Scottsdale&rsquo;s
-                operating posture, we want to know in the next meeting. The
-                structure exists to handle it.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ━━━━━━━━━━━━━━━━━ SECTION 9 · ENGAGEMENT STRUCTURES ━━━━━━━━━━━━━━━━━ */}
+      {/* ━━━━━━━━━━━━━━━━━ SECTION · ENGAGEMENT STRUCTURES ━━━━━━━━━━━━━━━━━ */}
       <section id="engagement" className="border-t border-white/5">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 py-16 md:py-24">
           <Reveal>
@@ -554,87 +462,6 @@ export default function ScottsdalePartnershipPage() {
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ━━━━━━━━━━━━━━━━━ SECTION 10 · THE ASK ━━━━━━━━━━━━━━━━━ */}
-      <section className="relative border-t border-white/5 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-gold/5 via-transparent to-transparent" aria-hidden />
-        <div className="relative max-w-5xl mx-auto px-5 sm:px-6 py-16 md:py-28">
-          <Reveal>
-            <div className="text-xs uppercase tracking-[0.2em] text-gold font-semibold mb-3">
-              The Ask
-            </div>
-            <h2 className="text-3xl md:text-6xl font-bold tracking-tight mb-8 leading-[1.1]">
-              A <span className="text-gold">90-day Phase 1 pilot.</span>
-              <br className="hidden md:block" /> Then we decide together what comes next.
-            </h2>
-          </Reveal>
-
-          <Reveal delay={100}>
-            <div className="rounded-2xl border border-gold/30 bg-gradient-to-br from-surface/60 to-ink/40 p-6 md:p-10 mb-10">
-              <ul className="space-y-5 text-light">
-                <li className="flex gap-4">
-                  <span className="text-gold text-xl font-bold tabular-nums shrink-0">01</span>
-                  <p className="text-base md:text-lg leading-relaxed">
-                    Three high-bycatch sites identified through MotherLode CMI and presented to Scottsdale Mint for review.
-                  </p>
-                </li>
-                <li className="flex gap-4">
-                  <span className="text-gold text-xl font-bold tabular-nums shrink-0">02</span>
-                  <p className="text-base md:text-lg leading-relaxed">
-                    Three operator conversations initiated with Scottsdale Mint as the named acquiring party.
-                  </p>
-                </li>
-                <li className="flex gap-4">
-                  <span className="text-gold text-xl font-bold tabular-nums shrink-0">03</span>
-                  <p className="text-base md:text-lg leading-relaxed">
-                    One small-scale transaction closed inside the 90-day window. Verified field outcome documented.
-                  </p>
-                </li>
-                <li className="flex gap-4">
-                  <span className="text-gold text-xl font-bold tabular-nums shrink-0">04</span>
-                  <p className="text-base md:text-lg leading-relaxed">
-                    Verified outcome returned to the MotherLode model. Confidence intervals tightened. Flywheel velocity measured.
-                  </p>
-                </li>
-                <li className="flex gap-4">
-                  <span className="text-gold text-xl font-bold tabular-nums shrink-0">05</span>
-                  <p className="text-base md:text-lg leading-relaxed">
-                    Joint review at day 90. Scale, refine, expand to next geographic region, or step into one of the four engagement structures above.
-                  </p>
-                </li>
-              </ul>
-            </div>
-          </Reveal>
-
-          <Reveal delay={200}>
-            <div className="rounded-xl border border-gold/40 bg-gold/10 p-6 md:p-8 mb-10">
-              <p className="text-base md:text-lg italic text-light leading-relaxed mb-3">
-                &ldquo;Three sites identified. Three operator conversations initiated with Scottsdale Mint as the named acquiring party. One small-scale transaction closed. We measure the flywheel. We decide together what comes next.&rdquo;
-              </p>
-              <p className="text-xs text-muted uppercase tracking-[0.18em]">
-                The 90-day commitment, in one sentence.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={280}>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="mailto:corey@motherlodecmi.com?subject=Phair%20Meeting%20%C2%B7%20Provenance%20Sourcing%20Network"
-                className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-lg bg-gradient-to-br from-gold to-copper text-ink font-bold text-base hover:brightness-110 transition-all shadow-lg shadow-gold/20"
-              >
-                Schedule the Phair Meeting
-              </a>
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-lg border border-gold/40 text-gold hover:bg-gold/10 transition-all font-semibold"
-              >
-                Talk First
-              </a>
-            </div>
-          </Reveal>
         </div>
       </section>
 
