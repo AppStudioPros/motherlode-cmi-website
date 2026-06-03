@@ -59,6 +59,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Audience Entry Points — give each visitor type a door right after the hero stats */}
+      <section className="py-14 sm:py-20 md:py-24">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <div className="text-center mb-10 sm:mb-12">
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-4">
+              Who this is for
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+              Where to start, by who you are.
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <Reveal delay={0}><AudienceCard
+              tag="Federal"
+              title="Federal program managers"
+              body="DOE, DOD, ARPA-E, state critical-minerals commissions. Compliance posture, methodology, and a sample site report on demand."
+              ctaLabel="Compliance &amp; sample report"
+              ctaHref="/compliance"
+            /></Reveal>
+            <Reveal delay={100}><AudienceCard
+              tag="Operators"
+              title="Operators with documented supply"
+              body="Active mines, tailings reprocessors, industrial waste-stream operators. Request consideration for the vetted Sourcing Network alpha."
+              ctaLabel="Operator intake"
+              ctaHref="/operators"
+            /></Reveal>
+            <Reveal delay={200}><AudienceCard
+              tag="Refiners"
+              title="Refiners &amp; downstream processors"
+              body="Regional, specialty, and international refiners building integrated feedstock pipelines under provenance documentation."
+              ctaLabel="Sourcing Network"
+              ctaHref="/sourcing"
+            /></Reveal>
+            <Reveal delay={300}><AudienceCard
+              tag="Capital"
+              title="Investors &amp; capital partners"
+              body="Patent-protected platform, federal-aligned positioning, compounding data moat. Direct inquiries to the team."
+              ctaLabel="Reach the team"
+              ctaHref="mailto:info@webdesignpros365.com?subject=MotherLode%20CMI%20%E2%80%94%20Investor%20inquiry"
+            /></Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* The Gap */}
       <section className="py-14 sm:py-20 md:py-28">
         <div className="max-w-5xl mx-auto px-5 sm:px-6">
@@ -162,6 +206,42 @@ export default function Home() {
             Inquiries from federal program managers and demonstration-facility awardees:{' '}
             <a href="#contact" className="text-gold hover:underline">please reach out directly</a>.
           </p>
+        </div>
+      </section>
+
+      {/* Coverage at a Glance — visual answer to 'does this work across the whole country?' */}
+      <section className="py-14 sm:py-20 md:py-24 bg-surface/30 backdrop-blur-sm border-y border-white/5">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <div className="text-center mb-10 sm:mb-12">
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-4">
+              Coverage
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+              National scope, per-site precision.
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            <Reveal delay={0}><CoverageStat
+              big="100%"
+              label="Mining-active United States"
+              sub="Every documented mineral extraction site, every state, every era from 1850 forward."
+            /></Reveal>
+            <Reveal delay={100}><CoverageStat
+              big="8"
+              label="Federally designated critical minerals"
+              sub="REE, cobalt, lithium, gallium, germanium, antimony, tellurium, nickel."
+            /></Reveal>
+            <Reveal delay={200}><CoverageStat
+              big="5"
+              label="Era-specific recovery models"
+              sub="From 19th-century stamp milling through modern flotation and leach circuits."
+            /></Reveal>
+            <Reveal delay={300}><CoverageStat
+              big="12"
+              label="Sites in active demo"
+              sub="Live walkthroughs available on the demo. Production coverage scales nationwide."
+            /></Reveal>
+          </div>
         </div>
       </section>
 
@@ -488,6 +568,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Federal Signals strip — lightweight institutional credibility band above the contact section */}
+      <section className="py-10 sm:py-14 border-t border-gold/15 bg-gradient-to-r from-surface/30 via-surface2/30 to-surface/30">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 text-center">
+          <div className="text-[10px] sm:text-xs uppercase tracking-[0.22em] text-gold/80 mb-4">
+            Federal programs we actively track
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-light">
+            <span>DOE Office of Critical Minerals</span>
+            <span className="text-gold/40">&middot;</span>
+            <span>DOE Manufacturing Deployment Office</span>
+            <span className="text-gold/40">&middot;</span>
+            <span>DPA Title III critical-minerals awards</span>
+            <span className="text-gold/40">&middot;</span>
+            <span>ARPA-E adjacent funding mechanisms</span>
+            <span className="text-gold/40">&middot;</span>
+            <span>State critical-minerals commission RFPs</span>
+          </div>
+        </div>
+      </section>
+
       {/* Contact */}
       <section id="contact" className="py-14 sm:py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-t border-white/5">
         <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
@@ -580,6 +680,59 @@ function FederalCard({ title, items }: { title: string; items: string[] }) {
           </li>
         ))}
       </ul>
+    </article>
+  );
+}
+
+function AudienceCard({
+  tag,
+  title,
+  body,
+  ctaLabel,
+  ctaHref,
+}: {
+  tag: string;
+  title: string;
+  body: string;
+  ctaLabel: string;
+  ctaHref: string;
+}) {
+  return (
+    <a
+      href={ctaHref}
+      className="group h-full block rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 sm:p-6 hover:bg-white/[0.08] hover:border-gold/40 hover:-translate-y-1 transition-all duration-300"
+    >
+      <div className="text-[10px] uppercase tracking-[0.18em] text-gold/80 font-mono mb-3">{tag}</div>
+      <h3
+        className="text-base sm:text-lg font-bold mb-3 leading-snug"
+        dangerouslySetInnerHTML={{ __html: title }}
+      />
+      <p
+        className="text-[14px] sm:text-sm text-light leading-relaxed mb-5"
+        dangerouslySetInnerHTML={{ __html: body }}
+      />
+      <div className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold group-hover:gap-2.5 transition-all">
+        <span dangerouslySetInnerHTML={{ __html: ctaLabel }} />
+        <span aria-hidden="true">→</span>
+      </div>
+    </a>
+  );
+}
+
+function CoverageStat({
+  big,
+  label,
+  sub,
+}: {
+  big: string;
+  label: string;
+  sub: string;
+}) {
+  return (
+    <article className="h-full rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-5 sm:p-7 hover:bg-white/[0.06] hover:border-gold/30 transition-all duration-300">
+      <div className="text-4xl sm:text-5xl font-bold text-gold leading-none mb-3">{big}</div>
+      <div className="text-sm sm:text-base font-bold text-text mb-2 leading-snug">{label}</div>
+      <p className="text-[13px] sm:text-sm text-light leading-relaxed">{sub}</p>
     </article>
   );
 }
