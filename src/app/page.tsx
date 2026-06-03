@@ -109,6 +109,62 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Federal Alignment — V2 positioning: signals federal-cohort awareness without name-dropping awardees */}
+      <section className="py-14 sm:py-20 md:py-28">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-5 sm:mb-6">
+            Federal Alignment
+          </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
+            Aligned with the federal critical-minerals supply-chain build-out.
+          </h2>
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-5 sm:mb-6 max-w-4xl">
+            U.S. critical-minerals policy is now actively funding the recovery of rare earth elements
+            and other federally designated critical minerals from unconventional feedstocks &mdash; mine
+            tailings, red mud, industrial scrap, and other waste streams the legacy assay record never
+            measured.
+          </p>
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-8 sm:mb-10 max-w-4xl">
+            MotherLode CMI is the upstream intelligence layer for that build-out. Per-site predictions
+            with confidence intervals, sourced from an integrated corpus the federally funded cohort
+            cannot assemble on its own, defensible under DOE and DOD program-manager scrutiny.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Reveal delay={0}><FederalCard
+              title="Programs we track"
+              items={[
+                'DOE Office of Critical Minerals and Energy Innovation',
+                'DOE Manufacturing Deployment Office',
+                'DPA Title III critical-minerals awards',
+                'ARPA-E adjacent funding mechanisms',
+              ]}
+            /></Reveal>
+            <Reveal delay={120}><FederalCard
+              title="What we contribute"
+              items={[
+                'Per-site intelligence on unconventional feedstocks',
+                'Provenance-grade chain-of-custody framework',
+                'DOE-defensible audit trail on every prediction',
+                'Cross-cluster discovery of analog feedstock sites',
+              ]}
+            /></Reveal>
+            <Reveal delay={240}><FederalCard
+              title="Where the network goes next"
+              items={[
+                'Vetted-supply pipeline for federally funded operators',
+                'Government data licensing API',
+                'Investor due-diligence reports',
+                'Sovereign-tier identity isolation (dormant, architected in)',
+              ]}
+            /></Reveal>
+          </div>
+          <p className="text-sm sm:text-base text-muted leading-relaxed mt-8 sm:mt-10 max-w-4xl">
+            Inquiries from federal program managers and demonstration-facility awardees:{' '}
+            <a href="#contact" className="text-gold hover:underline">please reach out directly</a>.
+          </p>
+        </div>
+      </section>
+
       {/* Sample Output — worked example so visitors see what the platform actually produces */}
       <section className="py-14 sm:py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
         <div className="max-w-5xl mx-auto px-5 sm:px-6">
@@ -508,6 +564,22 @@ function AiMethodCard({ num, title, body }: { num: string; title: string; body: 
         <h3 className="text-lg font-bold">{title}</h3>
       </div>
       <p className="text-[15px] sm:text-sm text-light leading-relaxed">{body}</p>
+    </article>
+  );
+}
+
+function FederalCard({ title, items }: { title: string; items: string[] }) {
+  return (
+    <article className="h-full rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 sm:p-7 hover:bg-white/[0.07] hover:border-gold/30 hover:-translate-y-1 transition-all duration-300">
+      <h3 className="text-base font-bold mb-4 text-gold">{title}</h3>
+      <ul className="space-y-2.5">
+        {items.map((item) => (
+          <li key={item} className="flex gap-2.5 text-[14px] sm:text-sm text-light leading-relaxed">
+            <span className="text-gold flex-shrink-0 mt-1">•</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
     </article>
   );
 }
