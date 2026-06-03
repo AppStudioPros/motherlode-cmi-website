@@ -34,7 +34,7 @@ export default function Home() {
             Per-site critical-minerals intelligence across the entire mining-active United States.
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed">
-            MotherLode CMI integrates AI with comprehensive historical mining records, federal and state databases, and modern geological data to predict per-site critical-minerals content at fidelity not previously available, at speeds measured in hours instead of months.
+            The first integrated corpus of America&rsquo;s historical mining records, federal and state geological surveys, and modern multi-spectral data &mdash; activated by AI to deliver per-site critical-minerals intelligence in hours, not months.
           </p>
         </div>
       </section>
@@ -106,6 +106,157 @@ export default function Home() {
               body="Geological signature matching identifies undiscovered analogs to historically productive clusters. Surfaces high-potential sites that are absent from existing databases. Patent pending."
             /></Reveal>
           </div>
+        </div>
+      </section>
+
+      {/* Sample Output — worked example so visitors see what the platform actually produces */}
+      <section className="py-14 sm:py-20 md:py-28 bg-surface/30 backdrop-blur-sm border-y border-white/5">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-5 sm:mb-6">
+            Sample Output
+          </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
+            One site, three critical minerals, ranges instead of guesses.
+          </h2>
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-8 sm:mb-10 max-w-4xl">
+            Below is the actual MotherLode CMI output for a single representative site from the live
+            demo dataset. Every line is generated from the integrated corpus described above, with
+            confidence bands carried through to the predicted values.
+          </p>
+
+          <Reveal delay={0}>
+            <div className="rounded-2xl border border-gold/30 bg-gradient-to-b from-white/[0.06] to-white/[0.02] backdrop-blur-sm overflow-hidden">
+              {/* Header bar */}
+              <div className="px-6 sm:px-8 py-5 border-b border-white/10 bg-gold/5">
+                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+                  <div>
+                    <div className="text-xs uppercase tracking-[0.18em] text-gold mb-1">Site Report · Sample</div>
+                    <h3 className="text-xl sm:text-2xl font-bold">Lamartine Mine</h3>
+                    <div className="text-sm text-muted mt-1">Empire, Colorado · 39.7589, &minus;105.6783 · Operational 1869&ndash;1934</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xs uppercase tracking-[0.18em] text-muted mb-1">Redig Potential</div>
+                    <div className="text-3xl font-bold text-gold leading-none">82<span className="text-base text-muted font-normal"> / 100</span></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Predicted critical-minerals bycatch */}
+              <div className="px-6 sm:px-8 py-6">
+                <div className="text-xs uppercase tracking-[0.18em] text-gold mb-4">Predicted Critical-Minerals Bycatch</div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+                  <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 sm:p-5">
+                    <div className="flex items-baseline justify-between mb-2">
+                      <div className="font-bold text-base">Germanium</div>
+                      <div className="text-xs text-muted">Ge</div>
+                    </div>
+                    <div className="text-2xl font-bold text-gold mb-1">12&ndash;40 g/t</div>
+                    <div className="text-xs text-muted mb-3">85% confidence band</div>
+                    <div className="text-[13px] text-light leading-relaxed">
+                      Sphalerite-hosted germanium consistent with the Front Range polymetallic belt. Historically discarded with zinc.
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 sm:p-5">
+                    <div className="flex items-baseline justify-between mb-2">
+                      <div className="font-bold text-base">Gallium</div>
+                      <div className="text-xs text-muted">Ga</div>
+                    </div>
+                    <div className="text-2xl font-bold text-gold mb-1">Trace</div>
+                    <div className="text-xs text-muted mb-3">72% confidence band</div>
+                    <div className="text-[13px] text-light leading-relaxed">
+                      Associated with the sulfide ore body. Recoverable in the same flotation pathway used for the primary zinc concentrate.
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 sm:p-5">
+                    <div className="flex items-baseline justify-between mb-2">
+                      <div className="font-bold text-base">Tellurium</div>
+                      <div className="text-xs text-muted">Te</div>
+                    </div>
+                    <div className="text-2xl font-bold text-gold mb-1">Possible</div>
+                    <div className="text-xs text-muted mb-3">61% confidence band</div>
+                    <div className="text-[13px] text-light leading-relaxed">
+                      Indicated by cross-cluster signature match with Central City tellurides; not directly assayed in historical records.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Source attribution row */}
+              <div className="px-6 sm:px-8 py-5 border-t border-white/10 bg-white/[0.02]">
+                <div className="text-xs uppercase tracking-[0.18em] text-gold mb-3">Sources Combined In This Prediction</div>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-light">
+                  <li className="flex gap-2"><span className="text-gold">•</span>USGS Mineral Resources Data System (MRDS)</li>
+                  <li className="flex gap-2"><span className="text-gold">•</span>Colorado Geological Survey historical assay records</li>
+                  <li className="flex gap-2"><span className="text-gold">•</span>Front Range polymetallic-belt cluster signatures</li>
+                  <li className="flex gap-2"><span className="text-gold">•</span>Sentinel-2 multi-spectral satellite imagery (B11/B12 ratios)</li>
+                </ul>
+              </div>
+
+              {/* Footer CTA row */}
+              <div className="px-6 sm:px-8 py-5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="text-sm text-muted">
+                  Sample output for partner conversations. Full reports include reprocessing economics, ESG framework, and regulatory pathway.
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <a
+                    href="/sample-report.pdf"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gold/40 text-gold hover:bg-gold/10 transition-colors text-sm font-semibold whitespace-nowrap"
+                  >
+                    📄 Download sample PDF
+                  </a>
+                  <a
+                    href="/demo"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gold to-copper text-ink font-semibold hover:opacity-90 transition-opacity text-sm whitespace-nowrap"
+                  >
+                    Try the live demo →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* AI Methodology — Doug's 'sizzle' note: explain the AI without giving away the moat */}
+      <section className="py-14 sm:py-20 md:py-28">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-5 sm:mb-6">
+            AI Methodology
+          </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
+            How the AI layer activates the data corpus.
+          </h2>
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-8 sm:mb-10 max-w-4xl">
+            The AI is the activation layer on top of the integrated data corpus. Each layer is
+            patent-anchored, audit-trail-complete, and bound to a published methodology so partners
+            can verify every prediction back to its source records.
+          </p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Reveal delay={0}><AiMethodCard
+              num="01"
+              title="Extraction"
+              body="Purpose-trained language models read century-old assay reports, drill logs, and state geological survey notes; convert unstructured text and tables into normalized assay records with per-field confidence scores."
+            /></Reveal>
+            <Reveal delay={120}><AiMethodCard
+              num="02"
+              title="Pattern Matching"
+              body="A geological-signature embedding model places each documented site in a high-dimensional feature space. Cross-cluster analogs surface in seconds; novel-site discovery falls out of the same index."
+            /></Reveal>
+            <Reveal delay={240}><AiMethodCard
+              num="03"
+              title="Reasoning"
+              body="A patent-anchored AI agent combines extracted assay data, cross-site signatures, era-specific recovery efficiency models, and modern multi-spectral signals into per-site predictions with confidence intervals."
+            /></Reveal>
+            <Reveal delay={360}><AiMethodCard
+              num="04"
+              title="Auditability"
+              body="Every prediction traces back to its source records. The agent is methodology-bound and cannot cite sources it does not have. No hallucination, no drift, no black-box outputs that program managers cannot defend."
+            /></Reveal>
+          </div>
+          <p className="text-sm sm:text-base text-muted leading-relaxed mt-8 sm:mt-10 max-w-4xl">
+            The AI is the sizzle. The integrated data corpus and patent-anchored methodology are the
+            steak. Both are required; neither is sufficient on its own.
+          </p>
         </div>
       </section>
 
@@ -344,6 +495,18 @@ function FlywheelStep({ num, title, body }: { num: string; title: string; body: 
     <article className="h-full rounded-2xl border border-gold/20 bg-gradient-to-b from-white/[0.06] to-transparent backdrop-blur-sm p-5 sm:p-7 hover:border-gold/40 hover:-translate-y-1 transition-all duration-300">
       <div className="text-3xl font-bold text-gold mb-3">{num}</div>
       <h3 className="text-lg font-bold mb-3">{title}</h3>
+      <p className="text-[15px] sm:text-sm text-light leading-relaxed">{body}</p>
+    </article>
+  );
+}
+
+function AiMethodCard({ num, title, body }: { num: string; title: string; body: string }) {
+  return (
+    <article className="h-full rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 sm:p-7 hover:bg-white/[0.07] hover:border-gold/30 hover:-translate-y-1 transition-all duration-300">
+      <div className="flex items-baseline gap-3 mb-3">
+        <span className="text-xs font-mono text-gold tracking-[0.18em]">{num}</span>
+        <h3 className="text-lg font-bold">{title}</h3>
+      </div>
       <p className="text-[15px] sm:text-sm text-light leading-relaxed">{body}</p>
     </article>
   );
