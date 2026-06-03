@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react";
 
 const NAV_ITEMS = [
-  { href: "#platform", label: "Platform" },
-  { href: "#flywheel", label: "Data Flywheel" },
-  { href: "#team", label: "Team" },
-  { href: "#contact", label: "Contact", primary: true },
+  { href: "/#platform", label: "Platform" },
+  { href: "/sourcing", label: "Sourcing" },
+  { href: "/operators", label: "Operators" },
+  { href: "/compliance", label: "Compliance" },
+  { href: "/#team", label: "Team" },
+  { href: "/#contact", label: "Contact", primary: true },
 ];
 
 export function MobileNav() {

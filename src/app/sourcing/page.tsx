@@ -21,9 +21,11 @@ export default function SourcingPage() {
             </div>
             <span className="font-semibold tracking-tight">MotherLode CMI</span>
           </a>
-          <div className="hidden md:flex items-center gap-8 text-sm">
+          <div className="hidden md:flex items-center gap-6 lg:gap-7 text-sm">
             <a href="/#platform" className="text-muted hover:text-text transition-colors">Platform</a>
-            <a href="/#flywheel" className="text-muted hover:text-text transition-colors">Data Flywheel</a>
+            <a href="/sourcing" className="text-gold transition-colors">Sourcing</a>
+            <a href="/operators" className="text-muted hover:text-text transition-colors">Operators</a>
+            <a href="/compliance" className="text-muted hover:text-text transition-colors">Compliance</a>
             <a href="/#team" className="text-muted hover:text-text transition-colors">Team</a>
             <a href="/#contact" className="px-4 py-1.5 rounded border border-gold/40 text-gold hover:bg-gold/10 transition-colors">Contact</a>
           </div>
