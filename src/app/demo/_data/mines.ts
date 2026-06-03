@@ -18,13 +18,16 @@ export interface Mine {
   mercury_risk: string;
   recovery_method_used: string;
   modern_recovery_method: string;
+  /** Federal / state critical-minerals funding programs this site is eligible under. */
+  federal_funding_eligible?: string[];
+  /** Optional: pre-set predicted critical-minerals bycatch (some sites have this; others derive via scan). */
+  critical_minerals_bycatch?: string[];
   satellite_signature: string;
   geological_formation: string;
   estimated_remaining_grade_low: string;
   estimated_remaining_grade_high: string;
   tailings_volume_estimate: string;
   redig_potential_score: number;
-  critical_minerals_bycatch?: string[];
 }
 
 const minesArray = seedData as Mine[];

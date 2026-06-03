@@ -52,6 +52,23 @@ async function loadMines() {
   const res = await fetch('/api/mines');
   mines = await res.json();
   renderPins();
+  // Deep-link: if the URL has #site=<id>, auto-select that site after pins render.
+  // Used for the 'Share this report' feature so a forwarded URL lands on a specific site.
+  try {
+    const hashMatch = window.location.hash.match(/site=([a-z0-9-]+)/i);
+    if (hashMatch) {
+      const target = mines.find(m => m.id === hashMatch[1].toLowerCase());
+      if (target) {
+        // Small delay so the map has a chance to finish its first paint before scrolling.
+        setTimeout(() => {
+          selectMine(target);
+          map.setView([target.lat, target.lng], 12);
+        }, 600);
+      }
+    }
+  } catch (e) {
+    console.warn('[demo] deep-link parse failed', e);
+  }
 }
 
 function pinColor(score) {
@@ -100,6 +117,13 @@ function renderMineData(mine) {
   const critical = (mine.critical_minerals_bycatch || [])
     .map(c => `<span class="pill pill-critical">${c}</span>`).join('');
 
+  // Federal funding eligibility badges. Surfaced on the site header so visitors
+  // see the federal-program alignment without having to leave the demo.
+  const fundingPrograms = mine.federal_funding_eligible || [];
+  const fundingBadges = fundingPrograms
+    .map(p => `<span class="fed-funding-badge" title="This site is eligible under: ${p}"><span class="fed-funding-dot"></span>${p}</span>`)
+    .join('');
+
   const mercClass = `merc-${mine.mercury_risk}`;
 
   dataSection.innerHTML = `
@@ -108,6 +132,7 @@ function renderMineData(mine) {
       <div class="mine-header-main">
         <div class="mine-name">${mine.name}</div>
         <div class="mine-town">📍 ${mine.town}</div>
+        ${fundingBadges ? `<div class="fed-funding-row">${fundingBadges}</div>` : ''}
       </div>
       <div class="score-display">
         <div class="score-num">${mine.redig_potential_score}</div>
@@ -243,6 +268,23 @@ function renderMineData(mine) {
       <span class="working-dots" aria-hidden="true"><span></span><span></span><span></span></span>
     </div>
 
+    <!-- Post-scan actions: Share + Compare. Hidden until scan completes. -->
+    <div class="post-scan-actions" id="postScanActions" aria-label="Share or compare this report">
+      <button class="post-scan-btn post-scan-share" id="shareReportBtn" type="button">
+        <span aria-hidden="true">🔗</span>
+        <span>Share this report</span>
+      </button>
+      <div class="post-scan-compare">
+        <label for="compareSelect" class="post-scan-compare-label">Compare with another site:</label>
+        <select id="compareSelect" class="post-scan-compare-select">
+          <option value="">— pick a site —</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Comparison panel, injected on demand by handleCompareSelect. -->
+    <div class="comparison-panel" id="comparisonPanel"></div>
+
     <!-- ACI Bot chat -->
     <div class="chat-block" id="chatBlock">
       <div class="chat-header chat-header-spotlight">
@@ -288,6 +330,26 @@ function renderMineData(mine) {
   document.getElementById('chatInput').addEventListener('keypress', e => {
     if (e.key === 'Enter') sendChat();
   });
+
+  // Populate the Compare-with dropdown with every OTHER mine.
+  const cmpSel = document.getElementById('compareSelect');
+  if (cmpSel) {
+    mines
+      .filter(m => m.id !== mine.id)
+      .forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.id;
+        opt.textContent = `${m.name} — ${m.town}`;
+        cmpSel.appendChild(opt);
+      });
+    cmpSel.addEventListener('change', handleCompareSelect);
+  }
+
+  // Wire share button.
+  const shareBtn = document.getElementById('shareReportBtn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', shareReport);
+  }
 }
 
 // ============================================================
@@ -298,8 +360,150 @@ function clearAll() {
   dataSection.innerHTML = '';
   dataSection.classList.remove('active');
   setMapCollapsed(false);
+  // Clear deep-link hash so reloads return to the map view.
+  if (window.location.hash) {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
   // Scroll back to map
   document.querySelector('.map-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// POST-SCAN: SHARE + COMPARE
+// ============================================================
+function revealPostScanActions() {
+  const el = document.getElementById('postScanActions');
+  if (el) el.classList.add('show');
+  // Also update the URL hash so the current scan can be shared directly.
+  if (activeMine) {
+    const newHash = '#site=' + activeMine.id;
+    if (window.location.hash !== newHash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
+    }
+  }
+}
+
+async function shareReport() {
+  if (!activeMine) return;
+  const url = window.location.origin + window.location.pathname + '#site=' + activeMine.id;
+  const shareBtn = document.getElementById('shareReportBtn');
+  // Try modern share API first (mobile), fall back to clipboard copy.
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: 'MotherLode CMI — ' + activeMine.name,
+        text: 'Site report for ' + activeMine.name + ' (' + activeMine.town + ') via MotherLode CMI.',
+        url: url,
+      });
+      return;
+    } catch (e) {
+      // User cancelled or share failed; fall through to clipboard.
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    if (shareBtn) {
+      const orig = shareBtn.innerHTML;
+      shareBtn.classList.add('post-scan-share-copied');
+      shareBtn.innerHTML = '<span aria-hidden="true">✓</span><span>Link copied</span>';
+      setTimeout(() => {
+        shareBtn.classList.remove('post-scan-share-copied');
+        shareBtn.innerHTML = orig;
+      }, 1800);
+    }
+  } catch (e) {
+    // Last resort: just prompt with the URL.
+    prompt('Copy this link:', url);
+  }
+}
+
+function handleCompareSelect(e) {
+  const otherId = e.target.value;
+  const panel = document.getElementById('comparisonPanel');
+  if (!otherId) {
+    if (panel) panel.innerHTML = '';
+    return;
+  }
+  const other = mines.find(m => m.id === otherId);
+  if (!other || !activeMine) return;
+  renderComparison(activeMine, other);
+}
+
+function renderComparison(a, b) {
+  const panel = document.getElementById('comparisonPanel');
+  if (!panel) return;
+
+  function pillsHTML(arr, cls) {
+    return (arr || []).map(v => `<span class="pill ${cls || ''}">${v}</span>`).join(' ') || '<span class="compare-empty">—</span>';
+  }
+  function fundingHTML(arr) {
+    return (arr || [])
+      .map(p => `<span class="fed-funding-badge"><span class="fed-funding-dot"></span>${p}</span>`)
+      .join(' ') || '<span class="compare-empty">—</span>';
+  }
+
+  const rows = [
+    { label: 'Town', a: a.town, b: b.town },
+    { label: 'Operational Period', a: a.operational_period, b: b.operational_period },
+    { label: 'Redig Potential Score', a: `<strong>${a.redig_potential_score}/100</strong>`, b: `<strong>${b.redig_potential_score}/100</strong>` },
+    { label: 'Primary Commodity', a: a.commodity_primary, b: b.commodity_primary },
+    { label: 'Secondary Commodities', a: pillsHTML(a.commodities_secondary), b: pillsHTML(b.commodities_secondary) },
+    { label: 'Predicted Critical-Minerals Bycatch', a: pillsHTML(a.critical_minerals_bycatch, 'pill-critical'), b: pillsHTML(b.critical_minerals_bycatch, 'pill-critical') },
+    { label: 'Federal Funding Eligibility', a: fundingHTML(a.federal_funding_eligible), b: fundingHTML(b.federal_funding_eligible) },
+    { label: 'Mercury Risk', a: `<span class="merc-${a.mercury_risk}">${a.mercury_risk.toUpperCase()}</span>`, b: `<span class="merc-${b.mercury_risk}">${b.mercury_risk.toUpperCase()}</span>` },
+    { label: 'Estimated Remaining Grade', a: `${a.estimated_remaining_grade_low} – ${a.estimated_remaining_grade_high}`, b: `${b.estimated_remaining_grade_low} – ${b.estimated_remaining_grade_high}` },
+    { label: 'Tailings Volume', a: a.tailings_volume_estimate, b: b.tailings_volume_estimate },
+    { label: 'Geological Formation', a: a.geological_formation, b: b.geological_formation },
+    { label: 'Claim Status', a: a.claim_status, b: b.claim_status },
+  ];
+
+  panel.innerHTML = `
+    <div class="compare-card">
+      <div class="compare-card-head">
+        <div class="compare-card-eyebrow">Side-by-side comparison</div>
+        <button class="compare-card-close" id="compareCloseBtn" type="button" aria-label="Close comparison">×</button>
+      </div>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th><div class="compare-site-name">${a.name}</div><div class="compare-site-town">${a.town}</div></th>
+            <th><div class="compare-site-name">${b.name}</div><div class="compare-site-town">${b.town}</div></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(r => `
+            <tr>
+              <td class="compare-label">${r.label}</td>
+              <td class="compare-val">${r.a}</td>
+              <td class="compare-val">${r.b}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      <div class="compare-card-foot">
+        <a class="compare-jump" href="#site=${b.id}" id="compareJumpBtn">View full ${b.name} report →</a>
+      </div>
+    </div>
+  `;
+
+  // Wire close + jump-to.
+  const close = document.getElementById('compareCloseBtn');
+  if (close) close.addEventListener('click', () => {
+    panel.innerHTML = '';
+    const sel = document.getElementById('compareSelect');
+    if (sel) sel.value = '';
+  });
+  const jump = document.getElementById('compareJumpBtn');
+  if (jump) jump.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    selectMine(b);
+    // Update hash so the URL reflects the new site.
+    history.replaceState(null, '', window.location.pathname + window.location.search + '#site=' + b.id);
+  });
+
+  // Scroll the comparison into view.
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 }
 
 // ============================================================
@@ -417,6 +621,8 @@ function handleScanEvent(evt) {
     showWorkingIndicator();
   } else if (evt.type === 'done') {
     hideWorkingIndicator();
+    // Reveal the post-scan actions block (Share + Compare with...) now that the scan is complete.
+    revealPostScanActions();
     const chat = document.getElementById('chatBlock');
     chat.classList.add('show');
     setTimeout(() => chat.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 400);
