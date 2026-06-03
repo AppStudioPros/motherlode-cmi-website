@@ -326,7 +326,7 @@ export default function Home() {
                   <li className="flex gap-2"><span className="text-gold">•</span>USGS Mineral Resources Data System (MRDS)</li>
                   <li className="flex gap-2"><span className="text-gold">•</span>Colorado Geological Survey historical assay records</li>
                   <li className="flex gap-2"><span className="text-gold">•</span>Front Range polymetallic-belt cluster signatures</li>
-                  <li className="flex gap-2"><span className="text-gold">•</span>Sentinel-2 multi-spectral satellite imagery (B11/B12 ratios)</li>
+                  <li className="flex gap-2"><span className="text-gold">•</span>Sentinel-2 multi-spectral satellite analysis (modern era)</li>
                 </ul>
               </div>
 
