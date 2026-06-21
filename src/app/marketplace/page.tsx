@@ -41,11 +41,70 @@ export default function MarketplacePage() {
             Marketplace
           </span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
-            Every listing scored.<br className="hidden sm:block" /> Every transaction verified.
+            The first marketplace where every listing is scored before it goes live.
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed">
-            Mine claims, mineral rights, and industrial feedstock — all scored by the same integrated intelligence engine that powers the full platform. Free to list. Four percent at close.
+          <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed mb-10 sm:mb-14">
+            Mine claims. Mineral rights. Industrial feedstock. Every listing carries a MotherLode Score — calculated from the same integrated dataset that powers the full platform. No guessing. No misrepresentation. No blind offers.
           </p>
+        </div>
+      </section>
+
+      {/* Hero Stats Strip */}
+      <section className="border-y border-gold/20 bg-gradient-to-r from-surface/40 via-surface2/40 to-surface/40 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-8 sm:py-10 md:py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
+            <div className="pb-6 md:pb-0 border-b border-white/10 md:border-b-0">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gold mb-2">Free</div>
+              <div className="text-sm text-muted">To list any asset</div>
+            </div>
+            <div className="pb-6 md:pb-0 border-b border-white/10 md:border-b-0 md:border-x md:border-white/10">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gold mb-2">4%</div>
+              <div className="text-sm text-muted">Commission at close only</div>
+            </div>
+            <div className="pb-6 md:pb-0 border-b border-white/10 md:border-b-0">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gold mb-2">Scored</div>
+              <div className="text-sm text-muted">Every listing, before it goes live</div>
+            </div>
+            <div>
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gold mb-2">Verified</div>
+              <div className="text-sm text-muted">Assays, chain-of-custody, fraud screening</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works — 3-step */}
+      <section className="py-14 sm:py-20 md:py-24">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-4 sm:mb-6 text-center">
+            How it works.
+          </h2>
+          <p className="text-base sm:text-lg text-light text-center max-w-3xl mx-auto mb-10 sm:mb-14 leading-relaxed">
+            Every other mining marketplace is a listing board — asking price, a seller description, and no way to know if the site is worth what someone is asking. MotherLode Marketplace changes every part of that.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Reveal delay={0}>
+              <article className="h-full rounded-2xl border border-gold/20 bg-gradient-to-b from-white/[0.06] to-transparent backdrop-blur-sm p-5 sm:p-7 hover:border-gold/40 hover:-translate-y-1 transition-all duration-300">
+                <div className="text-3xl font-bold text-gold mb-3">1</div>
+                <h3 className="text-lg font-bold mb-3">List your asset</h3>
+                <p className="text-[15px] sm:text-sm text-light leading-relaxed">Mine claim, mineral rights, or industrial feedstock. Free to list. The platform pulls public record data, generates a MotherLode Score, and produces a value estimate before the listing goes live.</p>
+              </article>
+            </Reveal>
+            <Reveal delay={150}>
+              <article className="h-full rounded-2xl border border-gold/20 bg-gradient-to-b from-white/[0.06] to-transparent backdrop-blur-sm p-5 sm:p-7 hover:border-gold/40 hover:-translate-y-1 transition-all duration-300">
+                <div className="text-3xl font-bold text-gold mb-3">2</div>
+                <h3 className="text-lg font-bold mb-3">Buyers find you by score</h3>
+                <p className="text-[15px] sm:text-sm text-light leading-relaxed">Buyers search and filter by MotherLode Score, commodity, state, price, and rework cost. Your asking price is benchmarked against the score — fairly priced listings surface first. Deal alerts notify matched buyers instantly.</p>
+              </article>
+            </Reveal>
+            <Reveal delay={300}>
+              <article className="h-full rounded-2xl border border-gold/20 bg-gradient-to-b from-white/[0.06] to-transparent backdrop-blur-sm p-5 sm:p-7 hover:border-gold/40 hover:-translate-y-1 transition-all duration-300">
+                <div className="text-3xl font-bold text-gold mb-3">3</div>
+                <h3 className="text-lg font-bold mb-3">Close with confidence</h3>
+                <p className="text-[15px] sm:text-sm text-light leading-relaxed">Verified assays, chain-of-custody documentation, comparable closed transactions, scam pattern screening, and a per-state tax calculator. Four percent commission at close — the marketplace earns when you earn.</p>
+              </article>
+            </Reveal>
+          </div>
         </div>
       </section>
 
