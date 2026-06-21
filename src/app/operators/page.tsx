@@ -23,6 +23,7 @@ export default function OperatorsPage() {
           </a>
           <div className="hidden md:flex items-center gap-6 lg:gap-7 text-sm">
             <a href="/#platform" className="text-muted hover:text-text transition-colors">Platform</a>
+            <a href="/marketplace" className="text-muted hover:text-text transition-colors">Marketplace</a>
             <a href="/sourcing" className="text-muted hover:text-text transition-colors">Sourcing</a>
             <a href="/operators" className="text-gold transition-colors">Operators</a>
             <a href="/compliance" className="text-muted hover:text-text transition-colors">Compliance</a>
