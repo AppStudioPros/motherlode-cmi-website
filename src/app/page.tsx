@@ -30,13 +30,16 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent"></div>
         <div className="relative max-w-5xl mx-auto px-5 sm:px-6 pt-16 pb-16 sm:pt-24 sm:pb-20 md:pt-32 md:pb-28 text-center">
           <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6 md:mb-8">
-            MotherLode CMI
+            Patent Filed &mdash; Lucid Tech LLC
           </span>
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6 md:mb-8">
-            Per-site critical-minerals intelligence across the entire mining-active United States.
+            America has trillions in critical minerals sitting in abandoned mines.<br className="hidden md:block" /> We score every one of them.
           </h1>
+          <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed mb-4">
+            MotherLode CMI uses AI to analyze every documented mine site in the United States &mdash; combining 175 years of historical mining records, satellite data, and modern recovery economics to tell you exactly what critical minerals are still in the ground, what they&rsquo;re worth, and what it would take to get them out.
+          </p>
           <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed">
-            The first integrated corpus of America&rsquo;s historical mining records, federal and state geological surveys, and modern multi-spectral data &mdash; activated by AI to deliver per-site critical-minerals intelligence in hours, not months.
+            One site analysis used to take a geologist six to eight months. We do it in hours. For every site in the country.
           </p>
         </div>
       </section>
@@ -44,18 +47,22 @@ export default function Home() {
       {/* Quantified Savings strip */}
       <section className="border-y border-gold/20 bg-gradient-to-r from-surface/40 via-surface2/40 to-surface/40 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-5 sm:px-6 py-8 sm:py-10 md:py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
             <div className="pb-6 md:pb-0 border-b border-white/10 md:border-b-0">
-              <div className="text-3xl md:text-4xl font-bold text-gold mb-2">6 to 8 months</div>
-              <div className="text-sm md:text-sm text-muted">Per-site analysis time using legacy methods</div>
+              <div className="text-3xl md:text-4xl font-bold text-gold mb-2">300K+</div>
+              <div className="text-sm text-muted">Mine sites scored</div>
             </div>
             <div className="pb-6 md:pb-0 border-b border-white/10 md:border-b-0 md:border-x md:border-white/10">
               <div className="text-3xl md:text-4xl font-bold text-gold mb-2">Hours</div>
-              <div className="text-sm md:text-sm text-muted">Per-site analysis time with MotherLode CMI</div>
+              <div className="text-sm text-muted">Per-site analysis vs. 6&ndash;8 months legacy</div>
+            </div>
+            <div className="pb-6 md:pb-0 border-b border-white/10 md:border-b-0">
+              <div className="text-3xl md:text-4xl font-bold text-gold mb-2">50+</div>
+              <div className="text-sm text-muted">Critical minerals tracked per site</div>
             </div>
             <div>
               <div className="text-3xl md:text-4xl font-bold text-gold mb-2">100%</div>
-              <div className="text-sm md:text-sm text-muted">Of mining-active United States covered</div>
+              <div className="text-sm text-muted">Mining-active United States covered</div>
             </div>
           </div>
         </div>
