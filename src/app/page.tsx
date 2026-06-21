@@ -33,7 +33,7 @@ export default function Home() {
           <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6 md:mb-8">
             Patent Filed &mdash; Lucid Tech LLC
           </span>
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6 md:mb-8">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6 md:mb-8 gold-shimmer">
             America has trillions in critical minerals sitting in abandoned mines.<br className="hidden md:block" /> We score every one of them.
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed mb-4">
