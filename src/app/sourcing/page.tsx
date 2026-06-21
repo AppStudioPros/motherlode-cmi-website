@@ -23,6 +23,7 @@ export default function SourcingPage() {
           </a>
           <div className="hidden md:flex items-center gap-6 lg:gap-7 text-sm">
             <a href="/#platform" className="text-muted hover:text-text transition-colors">Platform</a>
+            <a href="/marketplace" className="text-muted hover:text-text transition-colors">Marketplace</a>
             <a href="/sourcing" className="text-gold transition-colors">Sourcing</a>
             <a href="/operators" className="text-muted hover:text-text transition-colors">Operators</a>
             <a href="/compliance" className="text-muted hover:text-text transition-colors">Compliance</a>
@@ -52,20 +53,17 @@ export default function SourcingPage() {
 
       {/* What this is */}
       <section className="py-14 sm:py-20 md:py-28">
-        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
           <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-5 sm:mb-6">
             What this is
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
-            Not a marketplace. Not an arbitrage venue.
+            Where the Marketplace meets federal-grade compliance.
           </h2>
-          <p className="text-base sm:text-lg text-light leading-relaxed mb-5 sm:mb-6 max-w-4xl">
-            MotherLode Sourcing is the vetted-supply layer of the MotherLode platform. It connects
-            documented operators &mdash; surfaced through the upstream MotherLode CMI discovery engine
-            and through partner referrals &mdash; with the federally funded operators, refiners, and program
-            managers building the domestic critical-minerals supply chain.
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-5 sm:mb-6 max-w-4xl mx-auto">
+            The <a href="/marketplace" className="text-gold hover:underline">MotherLode Marketplace</a> connects buyers and sellers with scored listings and verified assays. MotherLode Sourcing is the elevated tier &mdash; purpose-built for the federally funded critical-minerals supply chain, where provenance documentation, compliance controls, and institutional-grade vetting are non-negotiable.
           </p>
-          <p className="text-base sm:text-lg text-light leading-relaxed max-w-4xl">
+          <p className="text-base sm:text-lg text-light leading-relaxed max-w-4xl mx-auto">
             Every listing is KYC verified, AML attested, OFAC screened, chain-of-custody documented, and
             beneficial-ownership traced. Identity isolation is built into the architecture from day one
             so sovereign-tier counterparties can participate when they choose to.
@@ -106,18 +104,17 @@ export default function SourcingPage() {
 
       {/* Who Phase 1 serves */}
       <section className="py-14 sm:py-20 md:py-28">
-        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
           <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-5 sm:mb-6">
             Phase 1 customer set
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-5 sm:mb-6">
             Federally funded operators, refiners, and program managers.
           </h2>
-          <p className="text-base sm:text-lg text-light leading-relaxed mb-8 sm:mb-10 max-w-4xl">
+          <p className="text-base sm:text-lg text-light leading-relaxed mb-8 sm:mb-10 max-w-4xl mx-auto">
             Phase 1 anchors on the federally funded U.S. critical-minerals supply chain &mdash; DOE
             Office of Critical Minerals awardees, their downstream operator and refiner partners, federal
-            labs, and program managers running the funding mechanisms. Sovereign-tier upside is preserved
-            in the architecture; sovereign-tier customer development is not Phase 1 scope.
+            labs, and program managers running the funding mechanisms.
           </p>
           <div className="grid md:grid-cols-2 gap-6">
             <article className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 sm:p-7">
