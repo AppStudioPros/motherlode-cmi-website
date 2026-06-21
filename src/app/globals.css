@@ -203,16 +203,16 @@ main {
   background: linear-gradient(
     90deg,
     #e2e2e2 0%,
-    #e2e2e2 35%,
-    #d4a853 45%,
-    #f5d78e 50%,
-    #d4a853 55%,
-    #e2e2e2 65%,
+    #e2e2e2 38%,
+    #c9b078 46%,
+    #ddc68a 50%,
+    #c9b078 54%,
+    #e2e2e2 62%,
     #e2e2e2 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: goldShimmer 6s linear infinite;
+  animation: goldShimmer 9s linear infinite;
 }
