@@ -47,8 +47,22 @@ export async function POST(request: Request) {
   if (!mine_id) return NextResponse.json({ error: "mine_id is required" }, { status: 400 });
   if (!message) return NextResponse.json({ error: "message is required" }, { status: 400 });
 
-  const mine = getMine(mine_id);
-  if (!mine) return NextResponse.json({ error: "Mine not found" }, { status: 404 });
+  const isHomepage = mine_id === "HOMEPAGE";
+  const mine = isHomepage ? null : getMine(mine_id);
+  if (!isHomepage && !mine) return NextResponse.json({ error: "Mine not found" }, { status: 404 });
+
+  if (isHomepage) {
+    const hpSystem = ACI_BOT_SYSTEM + `\n\nYou are on the MotherLode CMI homepage. Answer questions about the platform, how it works, who it is for, how to get access, the federal alignment, the data moat, and the investment opportunity. Direct detailed inquiries to info@webdesignpros365.com.`;
+    try {
+      const client = new Anthropic({ apiKey: ANTHROPIC_KEY });
+      const resp = await client.messages.create({ model: CLAUDE_FAST, max_tokens: 350, system: hpSystem, messages: [{ role: "user", content: message }] });
+      const reply = resp.content.filter((b): b is Anthropic.TextBlock => b.type === "text").map((b) => b.text).join("");
+      return NextResponse.json({ reply });
+    } catch (e) {
+      console.error("[chat] homepage error:", e);
+      return NextResponse.json({ reply: "[AI synthesis temporarily unavailable]" });
+    }
+  }
 
   if (!ANTHROPIC_KEY) {
     return NextResponse.json({
@@ -58,26 +72,26 @@ export async function POST(request: Request) {
 
   const mineContext = JSON.stringify(
     {
-      name: mine.name,
-      town: mine.town,
-      primary: mine.commodity_primary,
-      secondary: mine.commodities_secondary,
-      operational_period: mine.operational_period,
-      production_volume: mine.production_volume,
-      close_reason: mine.close_reason,
-      claim_status: mine.claim_status,
-      for_sale: mine.for_sale,
-      listing_price: mine.listing_price,
-      owner_type: mine.owner_type,
-      mercury_risk: mine.mercury_risk,
-      recovery_era: mine.recovery_method_used,
-      recovery_modern: mine.modern_recovery_method,
-      grade_estimate: `${mine.estimated_remaining_grade_low} to ${mine.estimated_remaining_grade_high}`,
-      tailings_volume: mine.tailings_volume_estimate,
-      geological: mine.geological_formation,
-      satellite: mine.satellite_signature,
-      redig_score: mine.redig_potential_score,
-      critical_minerals_bycatch: mine.critical_minerals_bycatch || [],
+      name: mine!.name,
+      town: mine!.town,
+      primary: mine!.commodity_primary,
+      secondary: mine!.commodities_secondary,
+      operational_period: mine!.operational_period,
+      production_volume: mine!.production_volume,
+      close_reason: mine!.close_reason,
+      claim_status: mine!.claim_status,
+      for_sale: mine!.for_sale,
+      listing_price: mine!.listing_price,
+      owner_type: mine!.owner_type,
+      mercury_risk: mine!.mercury_risk,
+      recovery_era: mine!.recovery_method_used,
+      recovery_modern: mine!.modern_recovery_method,
+      grade_estimate: `${mine!.estimated_remaining_grade_low} to ${mine!.estimated_remaining_grade_high}`,
+      tailings_volume: mine!.tailings_volume_estimate,
+      geological: mine!.geological_formation,
+      satellite: mine!.satellite_signature,
+      redig_score: mine!.redig_potential_score,
+      critical_minerals_bycatch: mine!.critical_minerals_bycatch || [],
     },
     null,
     2

@@ -1,9 +1,13 @@
 import { Reveal } from "@/components/Reveal";
 import { MobileNav } from "@/components/MobileNav";
+import { CommodityTicker } from "@/components/CommodityTicker";
+import { ACIBot } from "@/components/ACIBot";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen text-text">
+      <CommodityTicker />
+      <ACIBot />
       {/* Top Bar */}
       <header className="sticky top-0 z-50 backdrop-blur bg-ink/70 border-b border-white/5">
         <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -499,7 +503,7 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-8 sm:mb-12 text-center">
             Domain credibility paired with engineering execution.
           </h2>
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+          <div className="grid md:grid-cols-3 gap-5">
             {/* Corey */}
             <Reveal delay={0}>
             <article className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-8 hover:bg-white/[0.06] transition-colors">
@@ -562,6 +566,36 @@ export default function Home() {
               </a>
             </article>
             </Reveal>
+
+            {/* Riley */}
+            <Reveal delay={250}>
+            <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 hover:bg-white/[0.05] transition-colors">
+              <h3 className="text-2xl font-bold mb-1">Riley McAllister</h3>
+              <div className="text-gold font-semibold text-sm mb-1">Co-Founder, MLCMI Systems Director and Inventor</div>
+              <div className="text-muted text-xs mb-4">Gold Mine Operator, Nederland, Colorado</div>
+              <p className="text-light text-base leading-relaxed mb-4">
+                Active gold mine operator and Health and Safety Director at Cross and Caribou Mines, Nederland, Colorado. Northern Arizona University graduate with career-long focus on mine operations, MSHA compliance, and field-level critical minerals extraction. On-site liaison with the Colorado School of Mines student program.
+              </p>
+              <div className="mb-4">
+                <h4 className="text-gold text-xs font-bold uppercase tracking-[0.18em] mb-2">Credentials and Operations</h4>
+                <ul className="space-y-1.5 text-sm text-light">
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>General Mine Foreman and Health and Safety Director, Cross and Caribou Mines</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>MSHA-certified trainer and compliance officer</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Perfect MSHA compliance record across three-plus years of documented operations</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Certified oversight of crushing unit operations, ventilation systems, and site personnel</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-gold text-xs font-bold uppercase tracking-[0.18em] mb-2">Platform Role</h4>
+                <ul className="space-y-1.5 text-sm text-light">
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>MLCMI Systems Director — ground-truth operator intelligence and site vetting authority</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Inventor — proprietary field methodology integrated into the MotherLode CMI scoring engine</li>
+                  <li className="flex gap-3"><span className="mt-2 w-1 h-1 rounded-full bg-gold flex-shrink-0"></span>Colorado School of Mines academic partnership liaison</li>
+                </ul>
+              </div>
+            </article>
+            </Reveal>
+
           </div>
         </div>
       </section>
@@ -620,7 +654,7 @@ export default function Home() {
       <footer className="border-t border-white/5">
         <div className="max-w-6xl mx-auto px-6 py-10 text-center">
           <div className="text-sm text-muted mb-2">
-            MotherLode CMI is a product of <a href="https://lucidtechlabsllc.com" className="text-gold hover:underline">Lucid Tech LLC</a>.
+            MotherLode CMI is a product of <a href="https://lucidtechlabsllc.com" className="text-gold hover:underline">Lucid Tech LLC</a>, sister to <a href="https://motherlodereservoir.com" className="text-gold hover:underline">MotherLode Reservoir</a>.
           </div>
           <div className="text-xs text-muted">
             © {new Date().getFullYear()} Lucid Tech LLC. All rights reserved. U.S. Provisional Patent Application Filed.
@@ -631,6 +665,8 @@ export default function Home() {
             <a href="/privacy" className="hover:text-gold transition-colors">Privacy Policy</a>
             <span>·</span>
             <a href="/disclosures" className="hover:text-gold transition-colors">Disclosures</a>
+            <span>·</span>
+            <a href="/investor" className="hover:text-gold transition-colors">Investor Overview</a>
           </div>
         </div>
       </footer>
