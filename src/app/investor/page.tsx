@@ -139,8 +139,8 @@ export default function InvestorPage() {
 
               {/* Left — the ask */}
               <div>
-                <p className="text-3xl font-bold text-gold mb-1">$250,000 – $400,000</p>
-                <p className="text-sm text-muted mb-4">$250,000 for 15% equity &nbsp;|&nbsp; $400,000 for 25% equity in the MotherLode CMI program</p>
+                <p className="text-3xl font-bold text-gold mb-1">$450,000 – $800,000</p>
+                <p className="text-sm text-muted mb-4">$450,000 for 10% equity &nbsp;|&nbsp; $800,000 for 20% equity in the MotherLode CMI program</p>
                 <p className="text-sm text-light mb-3">We have over 3,000 hours in build time and $300,000 invested into the platform so far. We are currently 85% complete to public launch.</p>
                 <p className="text-sm text-light mb-6">Once funds are acquired we are live in 30 days or less.</p>
 
@@ -185,7 +185,8 @@ export default function InvestorPage() {
                     { name: "John Kennedy", role: "Co-Founder, Key System Manager", pct: "10%" },
                     { name: "Riley McAllister", role: "Co-Founder, Gold Mine Operator, Health and Safety Director — MLCMI Systems Director and Inventor", pct: "10%" },
                     { name: "Douglas B. Chrisey, Ph.D.", role: "Jung Chair of Materials Engineering, Tulane University — MLCMI System Admin", pct: "10%" },
-                    { name: "Investor", role: "$250K for 15% or $400K for 25%", pct: "15–25%" },
+                    { name: "Investor", role: "$450K for 10% or $800K for 20%", pct: "10–20%" },
+                    { name: "Strategic Partner", role: "$750K+ — reserved for partners bringing network, distribution, or offtake relationships", pct: "Reserved" },
                   ].map((member, i) => (
                     <li key={i} className="flex items-start justify-between gap-4 py-3 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
                       <div>
@@ -205,7 +206,7 @@ export default function InvestorPage() {
                 </p>
                 <div className="rounded-xl px-5 py-4" style={{ background: 'rgba(248,171,32,0.06)', border: '1px solid rgba(248,171,32,0.15)' }}>
                   <p className="text-sm text-muted leading-relaxed">
-                    <span className="font-semibold text-light">Investor return outlook:</span> Even at the lower conservative case, without any upside catalysts such as a DOE contract, state mandate, or international expansion, Year 3 projections support a <span className="text-gold font-semibold">10x return at $2.5 million on a $250,000 investment</span>, or a 6x return at $2.5 million on a $400,000 investment.
+                    <span className="font-semibold text-light">Investor return outlook:</span> Even at the lower conservative case, without any upside catalysts such as a DOE contract, state mandate, or international expansion, Year 3 projections support a strong return on a $450,000 investment. If enterprise API or federal catalysts fire, returns scale materially. Strategic allocation reserved for partners who bring network, distribution, or offtake relationships — contact the team directly.
                   </p>
                 </div>
               </div>
