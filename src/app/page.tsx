@@ -10,9 +10,10 @@ export default function Home() {
       <ACIBot />
       {/* Top Bar */}
       <header className="sticky top-0 z-50 backdrop-blur bg-ink/70 border-b border-white/5">
-        <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2 group">
-            <img src="/motherlode-cmi-logo.png" alt="MotherLode CMI" style={{height: "36px", width: "auto"}} />
+        <nav className="max-w-6xl mx-auto px-6 h-24 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-3 group">
+            <img src="/motherlode-cmi-mark.png" alt="MotherLode CMI" style={{height: "72px", width: "auto"}} />
+            <span className="font-semibold tracking-tight text-lg">MotherLode CMI</span>
           </a>
           <div className="hidden md:flex items-center gap-6 lg:gap-7 text-sm">
             <a href="#platform" className="text-muted hover:text-text transition-colors">Platform</a>
@@ -32,11 +33,8 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent"></div>
         <div className="relative max-w-5xl mx-auto px-5 sm:px-6 pt-16 pb-16 sm:pt-24 sm:pb-20 md:pt-32 md:pb-28 text-center">
           <div className="flex justify-center mb-8 md:mb-10">
-            <img src="/motherlode-cmi-logo.png" alt="MotherLode CMI" style={{height: "120px", width: "auto"}} />
+            <img src="/motherlode-cmi-logo.png" alt="MotherLode CMI" style={{height: "240px", width: "auto"}} />
           </div>
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6 md:mb-8">
-            Patent Filed &mdash; Lucid Tech LLC
-          </span>
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6 md:mb-8 gold-shimmer">
             America has trillions in critical minerals sitting in abandoned mines.<br className="hidden md:block" /> We score every one of them.
           </h1>
