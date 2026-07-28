@@ -11,11 +11,8 @@ export default function Home() {
       {/* Top Bar */}
       <header className="sticky top-0 z-50 backdrop-blur bg-ink/70 border-b border-white/5">
         <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded bg-gradient-to-br from-gold to-copper flex items-center justify-center">
-              <span className="text-ink font-bold text-sm">M</span>
-            </div>
-            <span className="font-semibold tracking-tight">MotherLode CMI</span>
+          <a href="/" className="flex items-center gap-2 group">
+            <img src="/motherlode-cmi-logo.png" alt="MotherLode CMI" style={{height: "36px", width: "auto"}} />
           </a>
           <div className="hidden md:flex items-center gap-6 lg:gap-7 text-sm">
             <a href="#platform" className="text-muted hover:text-text transition-colors">Platform</a>
@@ -34,6 +31,9 @@ export default function Home() {
       <section className="relative overflow-hidden blueprint-bg particles">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent"></div>
         <div className="relative max-w-5xl mx-auto px-5 sm:px-6 pt-16 pb-16 sm:pt-24 sm:pb-20 md:pt-32 md:pb-28 text-center">
+          <div className="flex justify-center mb-8 md:mb-10">
+            <img src="/motherlode-cmi-logo.png" alt="MotherLode CMI" style={{height: "120px", width: "auto"}} />
+          </div>
           <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6 md:mb-8">
             Patent Filed &mdash; Lucid Tech LLC
           </span>
@@ -676,6 +676,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-white/5">
         <div className="max-w-6xl mx-auto px-6 py-10 text-center">
+          <div className="flex justify-center mb-6">
+            <img src="/motherlode-cmi-logo.png" alt="MotherLode CMI" style={{height: "52px", width: "auto", opacity: 0.7}} />
+          </div>
           <div className="text-sm text-muted mb-2">
             MotherLode CMI is a product of <a href="https://lucidtechlabsllc.com" className="text-gold hover:underline">Lucid Tech LLC</a>, sister to <a href="https://motherlodereservoir.com" className="text-gold hover:underline">MotherLode Reservoir</a>.
           </div>
