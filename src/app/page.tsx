@@ -73,6 +73,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Video explainer */}
+      <section className="py-12 sm:py-16 md:py-20 border-b border-white/5">
+        <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-4">
+            See It In Action
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-3">The Map They Never Made</h2>
+          <p className="text-muted text-sm mb-8 max-w-xl mx-auto">
+            How MotherLode CMI turns 175 years of legacy mining records into an intelligence layer for critical minerals.
+          </p>
+          <div className="max-w-3xl mx-auto">
+            <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl" style={{paddingBottom: "56.25%"}}>
+              <iframe
+                src="https://drive.google.com/file/d/1srg71f0dO3e3sK_HW3TuZnpnPYs5Hu3C/preview"
+                className="absolute inset-0 w-full h-full"
+                allow="autoplay"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Audience Entry Points — give each visitor type a door right after the hero stats */}
       <section className="py-14 sm:py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-5 sm:px-6">
