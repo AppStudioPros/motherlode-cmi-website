@@ -84,10 +84,12 @@ export default function Home() {
           <div className="max-w-3xl mx-auto">
             <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl" style={{paddingBottom: "56.25%"}}>
               <iframe
-                src="https://drive.google.com/file/d/1srg71f0dO3e3sK_HW3TuZnpnPYs5Hu3C/preview"
+                src="https://www.youtube-nocookie.com/embed/66rJigzZr4o?rel=0&modestbranding=1"
                 className="absolute inset-0 w-full h-full"
-                allow="autoplay"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
+                title="MotherLode CMI Explainer"
               />
             </div>
           </div>
