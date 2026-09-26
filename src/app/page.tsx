@@ -619,6 +619,18 @@ export default function Home() {
             </article>
             </Reveal>
 
+            {/* John Kennedy */}
+            <Reveal delay={350}>
+            <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 hover:bg-white/[0.05] transition-colors">
+              <h3 className="text-2xl font-bold mb-1">John Kennedy</h3>
+              <div className="text-gold font-semibold text-sm mb-1">General Operations Manager</div>
+              <div className="text-muted text-xs mb-4">MotherLode CMI</div>
+              <p className="text-light text-base leading-relaxed">
+                Operations oversight and strategic coordination across the MotherLode CMI platform.
+              </p>
+            </article>
+            </Reveal>
+
           </div>
         </div>
       </section>
