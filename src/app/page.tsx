@@ -569,7 +569,7 @@ export default function Home() {
             <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 hover:bg-white/[0.05] transition-colors">
               <h3 className="text-2xl font-bold mb-1">Douglas B. Chrisey, Ph.D.</h3>
               <div className="text-gold font-semibold text-sm mb-1">Jung Chair of Materials Engineering, Tulane University</div>
-              <div className="text-muted text-xs mb-4">Co-owner, MotherLode CMI</div>
+              <div className="text-muted text-xs mb-4">Scientific Advisor, MotherLode CMI</div>
               <p className="text-light text-base leading-relaxed mb-4">
                 Professor of Physics and Engineering Physics at Tulane University, with adjunct appointment in Biomedical Engineering. Career spans seventeen years at the U.S. Naval Research Laboratory as Head of the Laser Processing Section, Deputy Director of the North Dakota State University Center for Nanoscale Science and Engineering, and Full Professor of Materials Science and Biomedical Engineering at Rensselaer Polytechnic Institute.
               </p>
