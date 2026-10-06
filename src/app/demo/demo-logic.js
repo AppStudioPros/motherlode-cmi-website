@@ -290,7 +290,7 @@ function renderMineData(mine) {
       <div class="chat-header chat-header-spotlight">
         <span class="chat-pulse chat-pulse-live" aria-hidden="true"></span>
         <span class="chat-live-chip" aria-label="Live">LIVE</span>
-        <span class="chat-header-text">ACI Bot · Try it now! Ask about this site</span>
+        <span class="chat-header-text">Site Intelligence · Ask about this site</span>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
       <div class="chat-input-row">
@@ -739,7 +739,7 @@ async function sendChat() {
   const messages = document.getElementById('chatMessages');
   const typing = document.createElement('div');
   typing.className = 'chat-typing';
-  typing.textContent = 'ACI Bot is thinking...';
+  typing.textContent = 'Analyzing...';
   messages.appendChild(typing);
   messages.scrollTop = messages.scrollHeight;
 

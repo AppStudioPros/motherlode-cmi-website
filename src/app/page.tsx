@@ -695,6 +695,14 @@ export default function Home() {
           <div className="text-xs text-muted">
             © {new Date().getFullYear()} Lucid Tech LLC. All rights reserved. U.S. Provisional Patent Application Filed.
           </div>
+          <div className="mt-5 mb-1">
+            <a
+              href="/demo"
+              className="inline-block px-5 py-2 rounded-full text-xs font-medium border border-gold/40 text-gold hover:bg-gold/10 transition-colors tracking-wide"
+            >
+              Try the Demo →
+            </a>
+          </div>
           <div className="text-xs text-muted mt-4 flex items-center justify-center gap-4">
             <a href="/terms" className="hover:text-gold transition-colors">Terms of Service</a>
             <span>·</span>
