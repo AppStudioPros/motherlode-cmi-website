@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || "";
 const BRAVE_KEY = process.env.BRAVE_API_KEY || "";
-const CLAUDE_PRIMARY = "claude-sonnet-4-20250514";
+const CLAUDE_PRIMARY = "claude-haiku-4-5-20251001";
 
 // Per-layer scan durations [min_sec, max_sec, completion_summary]
 // Slowed 50% (2x of original) for cinematic realism, per Corey 2026-05-27.
@@ -116,6 +116,29 @@ export async function POST(request: Request) {
         const braveQuery = `"${mine.name}" ${mine.town} mining gold tailings historic`;
         const bravePromise = wantBrave ? braveSearch(braveQuery) : Promise.resolve(null);
 
+        // Kick off Claude synthesis IN PARALLEL with the layer animation so results
+        // are ready by the time the scan finishes (avoids Vercel 30s timeout).
+        const opportunitySystem = `You are a mineral re-extraction analyst writing for a federal-grade critical-minerals intelligence platform.
+Write a tight 3-4 sentence opportunity assessment for the given historical mine.
+Focus on: the specific economic case based on price arbitrage between the operating era and current commodity prices, modern recovery method applicability, and any critical-minerals bycatch opportunity.
+Be specific. Use the data provided. Do NOT speculate beyond what the data supports.
+Do not use the word "claims" loosely. Conservative, technical, defensible tone.`;
+        const opportunityUser = renderMineForPrompt(mine, "opportunity");
+        const opportunityPromise = claudeSynthesize(opportunitySystem, opportunityUser, 400);
+
+        const roiSystem = `You are a mining-finance analyst writing a CONSERVATIVE ROI estimate for a tailings-reactivation site.
+Output exactly these 4 lines (use HTML <br/> separators, not newlines):
+
+<strong>Capital Required</strong>: [range, $K-$M, based on tailings volume + modern recovery method]
+<strong>Period to First Revenue</strong>: [range in months]
+<strong>Recovered Value Estimate</strong>: [range, $K-$M, based on grade × tailings volume × current commodity prices, applying conservative 70-80% modern recovery rate]
+<strong>Payback Period</strong>: [range in months, conservative]
+
+Then add one sentence stating the major economic risk for this site.
+Be conservative. Federal funding officers will read this — accuracy matters more than excitement.`;
+        const roiUser = renderMineForPrompt(mine, "roi");
+        const roiPromise = claudeSynthesize(roiSystem, roiUser, 400);
+
         // Cinematic per-layer flow with live progress ticker.
         // 'progress' events stream the percentage smoothly between layer ticks
         // so the counter on the client UI ticks continuously, not jumpily.
@@ -188,20 +211,8 @@ export async function POST(request: Request) {
         });
         await sleep(500);
 
-        // --- Result 3: Opportunity Assessment (AI-synthesized) ---
-        const opportunitySystem = `You are a mineral re-extraction analyst writing for a federal-grade critical-minerals intelligence platform.
-Write a tight 3-4 sentence opportunity assessment for the given historical mine.
-Focus on: the specific economic case based on price arbitrage between the operating era and current commodity prices, modern recovery method applicability, and any critical-minerals bycatch opportunity.
-Be specific. Use the data provided. Do NOT speculate beyond what the data supports.
-Do not use the word "claims" loosely. Conservative, technical, defensible tone.`;
-
-        const opportunityUser = renderMineForPrompt(mine, "opportunity");
-
-        const opportunityText = await claudeSynthesize(
-          opportunitySystem,
-          opportunityUser,
-          400
-        );
+        // --- Result 3: Opportunity Assessment (AI-synthesized, pre-fetched in parallel) ---
+        const opportunityText = await opportunityPromise;
         send({
           type: "result",
           block: "opportunity",
@@ -210,21 +221,8 @@ Do not use the word "claims" loosely. Conservative, technical, defensible tone.`
         });
         await sleep(400);
 
-        // --- Result 4: ROI & Timeline ---
-        const roiSystem = `You are a mining-finance analyst writing a CONSERVATIVE ROI estimate for a tailings-reactivation site.
-Output exactly these 4 lines (use HTML <br/> separators, not newlines):
-
-<strong>Capital Required</strong>: [range, $K-$M, based on tailings volume + modern recovery method]
-<strong>Period to First Revenue</strong>: [range in months]
-<strong>Recovered Value Estimate</strong>: [range, $K-$M, based on grade × tailings volume × current commodity prices, applying conservative 70-80% modern recovery rate]
-<strong>Payback Period</strong>: [range in months, conservative]
-
-Then add one sentence stating the major economic risk for this site.
-Be conservative. Federal funding officers will read this — accuracy matters more than excitement.`;
-
-        const roiUser = renderMineForPrompt(mine, "roi");
-
-        const roiText = await claudeSynthesize(roiSystem, roiUser, 400);
+        // --- Result 4: ROI & Timeline (AI-synthesized, pre-fetched in parallel) ---
+        const roiText = await roiPromise;
         const roiChip = `<div class='valuation-chip-row'><span class='valuation-chip' title='This demo uses representative inputs. Production deployments wire to live commodity, ownership, and market-comp APIs.'>Demo estimate · Production pulls live market data</span></div>`;
         send({
           type: "result",
