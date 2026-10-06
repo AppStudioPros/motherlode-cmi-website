@@ -33,24 +33,16 @@ export default function Home() {
         <img
           src="/hero-bg.png"
           alt="MotherLode CMI — America has trillions in critical minerals sitting in abandoned mines"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{opacity: 0.55}}
+          className="w-full block"
+          style={{
+            minHeight: "420px",
+            maxHeight: "92vh",
+            height: "56.25vw",
+            objectFit: "cover",
+            objectPosition: "left top",
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink/80"></div>
-        <div className="relative max-w-5xl mx-auto px-5 sm:px-6 pt-8 pb-16 sm:pt-12 sm:pb-20 md:pt-16 md:pb-28 text-center">
-          <div className="flex justify-center mb-8 md:mb-10">
-            <img src="/motherlode-cmi-logo.png" alt="MotherLode CMI" style={{height: "240px", width: "auto"}} />
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-6 md:mb-8 gold-shimmer">
-            America has trillions in critical minerals sitting in abandoned mines.<br className="hidden md:block" /> We score every one of them.
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed mb-4">
-            MotherLode CMI uses AI to analyze every documented mine site in the United States &mdash; combining 175 years of historical mining records, satellite data, and modern recovery economics to tell you exactly what critical minerals are still in the ground, what they&rsquo;re worth, and what it would take to get them out.
-          </p>
-          <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed">
-            One site analysis used to take a geologist six to eight months. We do it in hours. For every site in the country.
-          </p>
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-ink/60 pointer-events-none"></div>
       </section>
 
       {/* Quantified Savings strip */}
