@@ -35,20 +35,20 @@ export default function SourcingPage() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden blueprint-bg particles">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent"></div>
-        <div className="relative max-w-5xl mx-auto px-5 sm:px-6 pt-20 pb-12 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20 text-center">
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6 md:mb-8">
-            MotherLode Sourcing
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6 md:mb-8">
-            Provenance-grade supply for the federally funded critical-minerals supply chain.
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed">
-            A curated, vetted, federally aligned two-sided network connecting documented critical-minerals
-            supply with funded buyers requiring provenance-grade chain of custody.
-          </p>
-        </div>
+      <section className="relative overflow-hidden">
+        <img
+          src="/sourcing-hero.png"
+          alt="MotherLode Sourcing — Provenance-grade supply for the federally funded critical-minerals supply chain"
+          className="w-full block"
+          style={{
+            minHeight: "300px",
+            maxHeight: "75vh",
+            height: "33.3vw",
+            objectFit: "cover",
+            objectPosition: "center center",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 pointer-events-none"></div>
       </section>
 
       {/* What this is */}

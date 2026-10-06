@@ -34,19 +34,20 @@ export default function MarketplacePage() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden blueprint-bg particles">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent"></div>
-        <div className="relative max-w-5xl mx-auto px-5 sm:px-6 pt-20 pb-12 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20 text-center">
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-gold/30 text-gold bg-gold/5 mb-6 md:mb-8">
-            Marketplace
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
-            The first marketplace where every listing is scored before it goes live.
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-light max-w-3xl mx-auto leading-relaxed mb-10 sm:mb-14">
-            Mine claims. Mineral rights. Industrial feedstock. Every listing carries a MotherLode Score — calculated from the same integrated dataset that powers the full platform. No guessing. No misrepresentation. No blind offers.
-          </p>
-        </div>
+      <section className="relative overflow-hidden">
+        <img
+          src="/marketplace-hero.png"
+          alt="MotherLode Marketplace — The first marketplace where every listing is scored before it goes live"
+          className="w-full block"
+          style={{
+            minHeight: "300px",
+            maxHeight: "75vh",
+            height: "33.3vw",
+            objectFit: "cover",
+            objectPosition: "center center",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 pointer-events-none"></div>
       </section>
 
       {/* Hero Stats Strip */}
