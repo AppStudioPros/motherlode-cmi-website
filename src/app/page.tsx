@@ -29,8 +29,14 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden blueprint-bg particles">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent"></div>
+      <section className="relative overflow-hidden">
+        <img
+          src="/hero-bg.png"
+          alt="MotherLode CMI — America has trillions in critical minerals sitting in abandoned mines"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{opacity: 0.55}}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink/80"></div>
         <div className="relative max-w-5xl mx-auto px-5 sm:px-6 pt-8 pb-16 sm:pt-12 sm:pb-20 md:pt-16 md:pb-28 text-center">
           <div className="flex justify-center mb-8 md:mb-10">
             <img src="/motherlode-cmi-logo.png" alt="MotherLode CMI" style={{height: "240px", width: "auto"}} />
