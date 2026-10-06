@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || "";
 const BRAVE_KEY = process.env.BRAVE_API_KEY || "";
-const CLAUDE_PRIMARY = "claude-haiku-4-5-20251001";
+const CLAUDE_PRIMARY = "claude-sonnet-5-5";
 
 // Per-layer scan durations [min_sec, max_sec, completion_summary]
 // Slowed 50% (2x of original) for cinematic realism, per Corey 2026-05-27.

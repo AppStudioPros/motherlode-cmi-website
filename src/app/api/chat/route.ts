@@ -3,7 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { getMine } from "@/app/demo/_data/mines";
 
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || "";
-const CLAUDE_FAST = "claude-haiku-4-5-20251001";
+const CLAUDE_FAST = "claude-sonnet-5-5";
 
 const ACI_BOT_SYSTEM = `You are ACI Bot — the on-platform AI assistant for MotherLode CMI.
 
